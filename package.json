@@ -1,0 +1,16 @@
+{
+  "name": "cpp-learning",
+  "version": "1.0.0",
+  "description": "C++ 学习网站 - AI 驱动",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "node backend/server.js",
+    "build": "echo 'Static site, no build needed'"
+  },
+  "dependencies": {
+    "openai": "^4.52.0",
+    "jsonwebtoken": "^9.0.3",
+    "bcryptjs": "^3.0.3"
+  },
+  "devDependencies": {}
+}

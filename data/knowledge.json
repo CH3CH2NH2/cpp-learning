@@ -1,0 +1,458 @@
+{
+  "meta": {
+    "totalStages": 12,
+    "totalSubsections": 47,
+    "generatedAt": "2026-07-27T06:14:13.920Z",
+    "description": "C++ 完整学习路径（零基础 → 就业）"
+  },
+  "sections": [
+    {
+      "id": "stage-1-basics",
+      "title": "第一阶段：基础入门",
+      "subsections": [
+        {
+          "id": "1-1-first-program",
+          "title": "1.1 C++ 初识与环境搭建",
+          "content": "## 什么是 C++\n\nC++ 是一种**编译型、静态类型**的编程语言，由 Bjarne Stroustrup 在 1979 年于贝尔实验室开发。它兼具**高性能**和**抽象能力**，是游戏引擎、操作系统、数据库、量化交易系统的核心语言。\n\n## 编译流程\n\nC++ 源代码需要经过编译才能运行：\n\n1. **预处理**（Preprocessing）— 处理 `#include`、`#define` 等指令\n2. **编译**（Compilation）— 将源码转为汇编/目标文件 (.obj/.o)\n3. **链接**（Linking）— 将目标文件和库文件合并为可执行文件\n\n## 第一个程序\n\n```cpp\n#include <iostream>\n\nint main() {\n    std::cout << \"Hello, C++!\" << std::endl;\n    return 0;\n}\n```\n\n## 常用 IDE 与编译器\n\n- **编译器**：GCC (g++)、Clang、MSVC (Visual Studio)\n- **IDE**：Visual Studio、CLion、VS Code + 插件\n- **编译命令**：`g++ main.cpp -o main && ./main`\n\n## 注释\n\n```cpp\n// 单行注释\n\n/*\n  多行注释\n  可以跨行\n*/\n\n/**\n * Javadoc 风格注释\n * 用于生成文档\n */\n```",
+          "code_examples": [
+            "#include <iostream>\n\nint main() {\n    std::cout << \"Hello, C++!\" << std::endl;\n    return 0;\n}"
+          ]
+        },
+        {
+          "id": "1-2-variables-types",
+          "title": "1.2 变量与数据类型",
+          "content": "## 基本数据类型\n\n| 类型 | 大小 | 范围 |\n|------|------|------|\n| bool | 1 字节 | true / false |\n| char | 1 字节 | -128 ~ 127 |\n| int | 4 字节 | -2^31 ~ 2^31-1 |\n| float | 4 字节 | 约 7 位有效数字 |\n| double | 8 字节 | 约 15 位有效数字 |\n| void | - | 无类型 |\n\n## 变量定义与初始化\n\n```cpp\nint a;           // 默认初始化（局部变量为未定义值）\nint b = 10;      // 拷贝初始化\nint c(10);       // 直接初始化\nint d{10};       // 列表初始化（C++11 推荐）\nint e = {};      // 值初始化（e = 0）\n```\n\n## 常量\n\n```cpp\nconst int MAX = 100;        // const 常量（运行时）\nconstexpr int MIN = 0;       // constexpr 常量（编译时，C++11）\n#define PI 3.14159           // 宏常量（预处理，不推荐）\n```\n\n## 类型转换\n\n```cpp\nint a = 10;\ndouble b = a;                  // 隐式转换\ndouble c = (double)a;          // C 风格转换\ndouble d = static_cast<double>(a); // C++ 风格转换（推荐）\n```\n\n**关键要点：**\n- 局部变量不会自动初始化，使用前必须赋值\n- `sizeof` 运算符可查看类型占用字节数\n- C++11 起推荐使用列表初始化 `{}`，防止窄化转换",
+          "code_examples": [
+            "int a = 10;\ndouble b = static_cast<double>(a);\nconst int MAX = 100;"
+          ]
+        },
+        {
+          "id": "1-3-operators",
+          "title": "1.3 运算符与流程控制",
+          "content": "## 运算符分类\n\n| 类别 | 运算符 |\n|------|--------|\n| 算术 | `+ - * / %` |\n| 赋值 | `= += -= *= /= %=` |\n| 比较 | `== != < > <= >=` |\n| 逻辑 | `&& || !` |\n| 位运算 | `& | ^ ~ << >>` |\n| 递增递减 | `++ --`（前置/后置区别） |\n\n## 流程控制\n\n```cpp\n// 条件分支\nif (score >= 90) {\n    std::cout << \"A\";\n} else if (score >= 60) {\n    std::cout << \"B\";\n} else {\n    std::cout << \"C\";\n}\n\n// switch 语句（必须加 break，否则会穿透）\nswitch (day) {\n    case 1: std::cout << \"周一\"; break;\n    case 2: std::cout << \"周二\"; break;\n    default: std::cout << \"其它\"; break;\n}\n\n// 循环\nfor (int i = 0; i < 10; i++) { /* ... */ }\n\nwhile (condition) { /* ... */ }\n\ndo { /* ... */ } while (condition);\n```\n\n## 三目运算符\n\n```cpp\nint max = (a > b) ? a : b;\n```\n\n**常见陷阱：**\n- 浮点数不要直接用 `==` 比较，用 `abs(a - b) < 1e-6`\n- switch 的 case 穿透有时是故意设计的（如多个 case 执行相同代码）",
+          "code_examples": [
+            "int max = (a > b) ? a : b;\nfor (int i = 0; i < 10; i++) { }\nif (x > 0 && x < 100) { }"
+          ]
+        },
+        {
+          "id": "1-4-arrays-functions",
+          "title": "1.4 数组与函数",
+          "content": "## 数组\n\n```cpp\n// 一维数组\nint arr[5] = {1, 2, 3, 4, 5};\nint arr2[] = {1, 2, 3};  // 自动推导大小\nint n = sizeof(arr) / sizeof(arr[0]);  // 元素个数\n\n// 二维数组\nint matrix[3][4] = {\n    {1, 2, 3, 4},\n    {5, 6, 7, 8},\n    {9, 10, 11, 12}\n};\n```\n\n## 函数\n\n```cpp\n// 函数声明（原型）\nint add(int a, int b);\n\n// 函数定义\nint add(int a, int b) {\n    return a + b;\n}\n\n// 默认参数（从右向左提供默认值）\nvoid print(int x, int y = 10, int z = 20);\n\n// 函数重载（名称相同，参数不同）\nint max(int a, int b);\ndouble max(double a, double b);\n```\n\n## 值传递 vs 引用传递\n\n```cpp\nvoid swap_val(int a, int b) {   // 值传递——不改变实参\n    int t = a; a = b; b = t;\n}\n\nvoid swap_ref(int &a, int &b) {  // 引用传递——改变实参\n    int t = a; a = b; b = t;\n}\n\nvoid swap_ptr(int *a, int *b) {  // 指针传递——改变实参\n    int t = *a; *a = *b; *b = t;\n}\n```",
+          "code_examples": [
+            "int arr[5] = {1, 2, 3, 4, 5};\nint add(int a, int b) { return a + b; }\nvoid swap(int &a, int &b) { int t = a; a = b; b = t; }"
+          ]
+        },
+        {
+          "id": "1-5-pointers",
+          "title": "1.5 指针深入理解",
+          "content": "## 指针基础\n\n指针存储的是另一个变量的**内存地址**。\n\n```cpp\nint a = 10;\nint *p = &a;   // p 存储 a 的地址\n*p = 20;       // 解引用，修改 a 的值为 20\n\n// 指针的大小（64 位系统固定为 8 字节）\nstd::cout << sizeof(int*) << std::endl;  // 8\n```\n\n## const 修饰指针（高频面试点）\n\n```cpp\nconst int *p = &a;   // 常量指针：指向的内容不可改，但指针可以改指\nint *const p = &a;   // 指针常量：指针不可改指，但指向的内容可改\nconst int *const p = &a; // 两者都不可改\n```\n\n## 指针与数组\n\n```cpp\nint arr[5] = {10, 20, 30, 40, 50};\nint *p = arr;       // 数组名就是首元素地址\np++;                // 指向下一个元素（地址 +4）\nstd::cout << *p;    // 20\n\n// 指针遍历\nfor (int *p = arr; p < arr + 5; p++) {\n    std::cout << *p << \" \";\n}\n```\n\n## 空指针与野指针\n\n- **空指针**：`int *p = nullptr;` — 指向空地址，解引用会崩溃\n- **野指针**：指针指向已释放的内存或未初始化的内存，是 C++ 最难调试的 Bug 之一\n\n**核心原则：** 指针必须指向有效内存才能解引用。",
+          "code_examples": [
+            "int a = 10;\nint *p = &a;\n*p = 20;\nconst int *cp = &a;"
+          ]
+        },
+        {
+          "id": "1-6-structs",
+          "title": "1.6 结构体与自定义类型",
+          "content": "## 结构体\n\n结构体是将不同类型的数据组合成一个新的类型。\n\n```cpp\nstruct Student {\n    std::string name;\n    int age;\n    float score;\n};\n\n// 使用\nStudent s1;\ns1.name = \"张三\";\ns1.age = 20;\n\nStudent s2 = {\"李四\", 22, 95.5};   // 聚合初始化\nStudent *p = &s2;\np->age = 23;  // 指针访问成员\n```\n\n## 结构体对齐与填充\n\n结构体的大小不是成员大小的简单相加，因为编译器会在成员之间插入**填充字节**以满足对齐要求。\n\n```cpp\nstruct A {       // 实际大小：8\n    char a;      // 1 字节 + 3 填充\n    int b;       // 4 字节\n};\n\nstruct B {       // 实际大小：12\n    char a;      // 1 字节 + 3 填充\n    double b;    // 8 字节\n};\n```\n\n## typedef 与 using\n\n```cpp\ntypedef unsigned long ulong;        // 传统方式\nusing ulong = unsigned long;          // C++11 推荐（更直观）\n\nusing StringList = std::vector<std::string>;  // 模板别名\n```",
+          "code_examples": [
+            "struct Student { string name; int age; };\nStudent s = {\"张三\", 20};"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-2-oop",
+      "title": "第二阶段：面向对象编程",
+      "subsections": [
+        {
+          "id": "2-1-class-basics",
+          "title": "2.1 类与对象、封装",
+          "content": "## 类的基本概念\n\n类是 C++ 面向对象编程的核心，它将**数据**和**操作数据的方法**封装在一起。\n\n```cpp\nclass Rectangle {\nprivate:    // 私有成员——外部不可访问\n    double width_;\n    double height_;\n\npublic:     // 公有接口——外部可访问\n    Rectangle(double w, double h) : width_(w), height_(h) {}\n\n    double area() const {\n        return width_ * height_;\n    }\n\n    void resize(double factor) {\n        width_ *= factor;\n        height_ *= factor;\n    }\n};\n\n// 使用\nRectangle r(10, 20);\nstd::cout << r.area();  // 200\nr.resize(1.5);\n```\n\n## 访问权限\n\n| 关键字 | 同一类 | 派生类 | 外部 |\n|--------|--------|--------|------|\n| public | ✅ | ✅ | ✅ |\n| protected | ✅ | ✅ | ❌ |\n| private | ✅ | ❌ | ❌ |\n\n## struct vs class\n\n- C++ 中 `struct` 和 `class` **几乎一样**\n- 唯一区别：默认访问权限不同\n  - `struct`：默认 public\n  - `class`：默认 private\n\n**封装的好处：**\n1. 隐藏实现细节，只暴露接口\n2. 保证数据的完整性（通过 setter 校验）\n3. 降低耦合，便于修改维护",
+          "code_examples": [
+            "class Rectangle {\nprivate:\n    double w_, h_;\npublic:\n    double area() const { return w_ * h_; }\n};"
+          ]
+        },
+        {
+          "id": "2-2-constructor-destructor",
+          "title": "2.2 构造函数与析构函数",
+          "content": "## 构造函数\n\n构造函数在**对象创建时自动调用**，用于初始化对象。\n\n```cpp\nclass Student {\nprivate:\n    std::string name_;\n    int age_;\n    int *scores_;\n\npublic:\n    // 默认构造函数\n    Student() : name_(\"未知\"), age_(0), scores_(nullptr) {}\n\n    // 带参构造函数\n    Student(const std::string &name, int age)\n        : name_(name), age_(age), scores_(nullptr) {}\n\n    // 拷贝构造函数——从另一个对象构造\n    Student(const Student &other)\n        : name_(other.name_), age_(other.age_) {\n        if (other.scores_) {\n            scores_ = new int[100];\n            memcpy(scores_, other.scores_, 100 * sizeof(int));\n        }\n    }\n\n    // 移动构造函数（C++11）\n    Student(Student &&other) noexcept\n        : name_(std::move(other.name_))\n        , age_(other.age_)\n        , scores_(other.scores_) {\n        other.scores_ = nullptr;  // 资源转移后置空\n    }\n\n    // 析构函数——对象销毁时自动调用\n    ~Student() {\n        delete[] scores_;  // 释放动态内存\n    }\n};\n```\n\n## 初始化列表\n\n初始化列表在构造函数体**之前**执行，用于初始化成员变量。\n\n```cpp\nclass Example {\nprivate:\n    const int const_val_;  // const 成员必须用初始化列表\n    int &ref_;             // 引用成员必须用初始化列表\npublic:\n    Example(int v, int &r)\n        : const_val_(v), ref_(r) {  // 初始化列表\n        // 构造函数体\n    }\n};\n```\n\n## 委托构造函数\n\n```cpp\nclass Clock {\n    int h_, m_, s_;\npublic:\n    Clock() : Clock(0, 0, 0) {}        // 委托给三参构造函数\n    Clock(int h) : Clock(h, 0, 0) {}\n    Clock(int h, int m, int s) : h_(h), m_(m), s_(s) {}\n};\n```\n\n## 三/五法则（Rule of Three/Five）\n\n如果类管理了动态资源（如 `new` 分配的内存），那么：\n\n> **需要自定义析构函数 → 几乎一定需要自定义拷贝构造和拷贝赋值**\n\nC++11 起扩展到五：析构、拷贝构造、拷贝赋值、移动构造、移动赋值",
+          "code_examples": [
+            "Student(const Student &other) : name_(other.name_) { /* 深拷贝 */ }\n~Student() { delete[] scores_; }"
+          ]
+        },
+        {
+          "id": "2-3-this-static-friend",
+          "title": "2.3 this 指针、静态成员与友元",
+          "content": "## this 指针\n\n每个成员函数都有一个隐含的 `this` 指针，指向调用该函数的对象本身。\n\n```cpp\nclass Point {\n    int x_, y_;\npublic:\n    Point &setX(int x) {\n        this->x_ = x;   // this->x_ 区分成员变量和参数\n        return *this;   // 返回引用支持链式调用\n    }\n    Point &setY(int y) {\n        this->y_ = y;\n        return *this;\n    }\n};\n\n// 链式调用\nPoint p;\np.setX(10).setY(20);\n```\n\n## 静态成员\n\n静态成员属于**类本身**，而不是某个对象，所有对象共享一份。\n\n```cpp\nclass BankAccount {\nprivate:\n    static double interest_rate_;  // 静态成员变量声明\n    static int total_accounts_;    // 统计总账号数\n    double balance_;\n\npublic:\n    BankAccount() { total_accounts_++; }\n    ~BankAccount() { total_accounts_--; }\n\n    static double getRate() { return interest_rate_; }  // 静态成员函数\n    static int count() { return total_accounts_; }\n};\n\n// 静态成员变量必须在类外定义并初始化\ndouble BankAccount::interest_rate_ = 0.035;\nint BankAccount::total_accounts_ = 0;\n```\n\n## 友元\n\n友元函数或类可以访问另一个类的私有成员。\n\n```cpp\nclass Matrix;\n\nclass Vector {\n    double data_[3];\npublic:\n    friend class Matrix;           // Matrix 可以访问 Vector 的私有成员\n    friend double dot(const Vector &a, const Vector &b);  // 友元函数\n};\n```\n\n**友元的争议：** 友元破坏了封装性，但在运算符重载和某些设计模式中不可或缺。",
+          "code_examples": [
+            "class Point {\npublic:\n    Point &setX(int x) { x_ = x; return *this; }\n};"
+          ]
+        },
+        {
+          "id": "2-4-operator-overloading",
+          "title": "2.4 运算符重载",
+          "content": "## 运算符重载基础\n\n运算符重载让自定义类型像内置类型一样使用运算符。\n\n```cpp\nclass Complex {\n    double real_, imag_;\npublic:\n    Complex(double r = 0, double i = 0) : real_(r), imag_(i) {}\n\n    // 二元运算符重载（成员函数方式）\n    Complex operator+(const Complex &other) const {\n        return Complex(real_ + other.real_, imag_ + other.imag_);\n    }\n\n    // 复合赋值\n    Complex &operator+=(const Complex &other) {\n        real_ += other.real_;\n        imag_ += other.imag_;\n        return *this;\n    }\n\n    // 前置 ++\n    Complex &operator++() {\n        ++real_;\n        return *this;\n    }\n\n    // 后置 ++（int 参数是标识，无实际意义）\n    Complex operator++(int) {\n        Complex tmp = *this;\n        ++real_;\n        return tmp;\n    }\n\n    // 输出运算符（必须是非成员函数）\n    friend std::ostream &operator<<(std::ostream &os, const Complex &c) {\n        return os << c.real_ << \" + \" << c.imag_ << \"i\";\n    }\n};\n```\n\n## 可重载 vs 不可重载\n\n| 可重载 | 不可重载 |\n|--------|----------|\n| + - * / % | `.` 成员访问 |\n| == != < > | `::` 作用域解析 |\n| = [] () -> | `?:` 三目 |\n| ++ -- | `sizeof` |\n| << >> | `.*` 成员指针访问 |\n| & | ^ ~ | `#` `##` 预处理器 |\n\n## 下标运算符 []\n\n```cpp\nclass IntArray {\n    int *data_;\n    int size_;\npublic:\n    int &operator[](int idx) {\n        if (idx < 0 || idx >= size_) throw std::out_of_range(\"索引越界\");\n        return data_[idx];\n    }\n    const int &operator[](int idx) const {\n        if (idx < 0 || idx >= size_) throw std::out_of_range(\"索引越界\");\n        return data_[idx];\n    }\n};\n```\n\n## 函数调用运算符 ()\n\n实现 `operator()` 的对象称为**函数对象**或**仿函数**。\n\n```cpp\nclass Multiply {\n    double factor_;\npublic:\n    Multiply(double f) : factor_(f) {}\n    double operator()(double x) const { return x * factor_; }\n};\n\nMultiply by2(2.0);\nstd::cout << by2(3.0);  // 6.0\nstd::cout << by2(5.0);  // 10.0\n```\n\n**原则：** 重载运算符应保持其**自然语义**，不要滥用。",
+          "code_examples": [
+            "Complex operator+(const Complex &a, const Complex &b) { ... }"
+          ]
+        },
+        {
+          "id": "2-5-inheritance",
+          "title": "2.5 继承",
+          "content": "## 继承基础\n\n继承让一个类（派生类）获得另一个类（基类）的成员。\n\n```cpp\nclass Animal {\nprotected:\n    std::string name_;\npublic:\n    Animal(const std::string &name) : name_(name) {}\n    virtual void speak() const { std::cout << \"...\" << std::endl; }\n    virtual ~Animal() = default;\n};\n\nclass Dog : public Animal {  // 公有继承\npublic:\n    Dog(const std::string &name) : Animal(name) {}\n    void speak() const override { std::cout << \"汪汪!\" << std::endl; }\n    void fetch() const { std::cout << name_ << \" 在接球\" << std::endl; }\n};\n```\n\n## 继承方式\n\n| 基类权限 | public 继承 | protected 继承 | private 继承 |\n|----------|------------|----------------|--------------|\n| public | public | protected | private |\n| protected | protected | protected | private |\n| private | 不可见 | 不可见 | 不可见 |\n\n## 构造函数与析构顺序\n\n```cpp\nclass Base {\npublic:\n    Base() { std::cout << \"Base构造\\n\"; }\n    ~Base() { std::cout << \"Base析构\\n\"; }\n};\n\nclass Derived : public Base {\npublic:\n    Derived() { std::cout << \"Derived构造\\n\"; }\n    ~Derived() { std::cout << \"Derived析构\\n\"; }\n};\n// 输出:\n// Base构造\n// Derived构造\n// Derived析构\n// Base析构\n```\n\n## 菱形继承与虚继承\n\n```cpp\nclass Animal { public: int age; };\nclass Dog : virtual public Animal {};  // 虚继承\nclass Cat : virtual public Animal {};  // 虚继承\nclass Monster : public Dog, public Cat {};\n// 如果没有虚继承，Monster 会有两份 age，造成二义性\n\nMonster m;\nm.age = 5;  // 虚继承后无歧义\n```\n\n**继承 vs 组合：** 优先使用**组合**（has-a），继承（is-a）仅在明确的多态关系中使用。",
+          "code_examples": [
+            "class Dog : public Animal {\npublic:\n    void speak() const override { }\n};"
+          ]
+        },
+        {
+          "id": "2-6-polymorphism",
+          "title": "2.6 多态与虚函数",
+          "content": "## 虚函数与多态\n\n多态允许通过**基类指针/引用**调用**派生类的函数**。\n\n```cpp\nclass Shape {\npublic:\n    virtual double area() const = 0;  // 纯虚函数——抽象类\n    virtual ~Shape() = default;       // 基类析构函数应为虚函数\n};\n\nclass Circle : public Shape {\n    double radius_;\npublic:\n    Circle(double r) : radius_(r) {}\n    double area() const override { return 3.14159 * radius_ * radius_; }\n};\n\nclass Rectangle : public Shape {\n    double w_, h_;\npublic:\n    Rectangle(double w, double h) : w_(w), h_(h) {}\n    double area() const override { return w_ * h_; }\n};\n\n// 多态使用\nvoid printArea(const Shape &s) {\n    std::cout << \"面积: \" << s.area() << std::endl;\n}\n\nCircle c(5);\nRectangle r(3, 4);\nprintArea(c);  // 78.5397\nprintArea(r);  // 12\n```\n\n## 虚函数表（vtable，高频面试）\n\n每个有虚函数的类都有一个**虚函数表**（vtable），其中存储了虚函数的地址。\n\n```cpp\nclass Base {\npublic:\n    virtual void f() { cout << \"Base::f\\n\"; }\n    virtual void g() { cout << \"Base::g\\n\"; }\n    virtual ~Base() = default;\n};\n\nclass Derived : public Base {\npublic:\n    void f() override { cout << \"Derived::f\\n\"; }  // 覆盖 vtable 中 f 的地址\n};\n\n// 对象内存布局（典型实现）:\n// [vptr] → [&Derived::f, &Base::g, &Base::~Base]\n// [成员变量...]\n\n// 多态的代价：\n// - 每个对象多一个 vptr（8 字节）\n// - 虚函数调用无法内联（因为调用目标在运行时才能确定）\n```\n\n## override 和 final（C++11）\n\n```cpp\nclass Derived : public Base {\n    void f() override;   // 明确表示覆盖基类虚函数（编译器会检查签名是否匹配）\n};\n\nclass Sealed final : public Base {\n    // final 类不能被继承\n};\n\nvirtual void g() final;  // final 虚函数不能被进一步覆盖\n```\n\n## 纯虚函数与抽象类\n\n- 包含**纯虚函数**（`= 0`）的类是**抽象类**，不能实例化\n- 派生类必须实现所有纯虚函数才能实例化\n- 纯虚函数可以有**定义体**（可以调用 Base::func()）",
+          "code_examples": [
+            "virtual double area() const = 0;"
+          ]
+        },
+        {
+          "id": "2-7-casting",
+          "title": "2.7 C++ 类型转换",
+          "content": "## 四种类型转换运算符\n\n### static_cast — 编译时检查，最常用\n\n```cpp\ndouble d = 3.14;\nint i = static_cast<int>(d);  // 3\n\nBase *base = new Derived();\nDerived *derived = static_cast<Derived*>(base);  // 向下转型（不安全）\n```\n\n### dynamic_cast — 运行时检查，用于多态类型\n\n```cpp\nBase *base = new Derived();\nif (Derived *d = dynamic_cast<Derived*>(base)) {\n    // 转型成功\n    d->derivedMethod();\n} else {\n    // 转型失败\n}\n\nBase *base2 = new Base();\nDerived *d2 = dynamic_cast<Derived*>(base2);  // nullptr\n// 需要 RTTI 支持，有额外开销\n```\n\n### const_cast — 移除 const\n\n```cpp\nconst int a = 10;\nint *p = const_cast<int*>(&a);\n// 写 const 对象是未定义行为，const_cast 更多用于调用老旧 API\n```\n\n### reinterpret_cast — 最危险，位级转换\n\n```cpp\n// 将指针转为整数（硬件相关）\nuintptr_t addr = reinterpret_cast<uintptr_t>(ptr);\n```\n\n## 转型建议\n\n1. 优先使用 `static_cast`，而不是 C 风格转型\n2. 多态向下转型用 `dynamic_cast`\n3. 避免使用 `const_cast` 和 `reinterpret_cast`\n4. `static_cast` 没有运行时开销，`dynamic_cast` 有",
+          "code_examples": [
+            "double d = 3.14;\nint i = static_cast<int>(d);"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-3-advanced",
+      "title": "第三阶段：C++ 核心进阶",
+      "subsections": [
+        {
+          "id": "3-1-templates",
+          "title": "3.1 模板编程",
+          "content": "## 函数模板\n\n模板是 C++ **泛型编程**的基础，允许编写与类型无关的代码。\n\n```cpp\n// 函数模板\ntemplate <typename T>\nT max(T a, T b) {\n    return (a > b) ? a : b;\n}\n\n// 使用\nint imax = max(3, 7);           // T = int\ndouble dmax = max(3.14, 2.72);  // T = double\n// 自动推导类型，也可显式指定：max<double>(3, 2.72)\n```\n\n## 类模板\n\n```cpp\ntemplate <typename T, size_t Size>\nclass Array {\n    T data_[Size];\npublic:\n    T &operator[](size_t idx) { return data_[idx]; }\n    const T &operator[](size_t idx) const { return data_[idx]; }\n    size_t size() const { return Size; }\n};\n\nArray<int, 10> arr;\narr[0] = 42;\n```\n\n## 模板特化\n\n```cpp\n// 主模板\ntemplate <typename T>\nstruct IsPointer { static constexpr bool value = false; };\n\n// 完全特化——针对特定类型的特殊实现\ntemplate <>\nstruct IsPointer<int*> { static constexpr bool value = true; };\n\n// 偏特化（部分特化）——针对某一类类型\ntemplate <typename T>\nstruct IsPointer<T*> { static constexpr bool value = true; };\n```\n\n## 变参模板（C++11）\n\n```cpp\n// 打印任意数量参数\nvoid print() {}  // 递归终止\n\ntemplate <typename T, typename... Args>\nvoid print(T first, Args... rest) {\n    std::cout << first << \" \";\n    print(rest...);  // 递归展开\n}\n\nprint(1, 2.5, \"hello\", 'c');  // 1 2.5 hello c\n```\n\n## 模板的编译模型\n\n- 模板的声明和**定义通常都放在头文件**中（不能分离编译）\n- 模板在**实例化时**才生成真正的代码\n- 模板错误通常在实例化点才被发现\n\n**关键概念：**\n- typename 和 class 在模板参数中含义相同\n- 模板元编程（TMP）可以在编译期执行计算\n- C++20 的 Concepts 对模板参数进行约束",
+          "code_examples": [
+            "template <typename T>\nT max(T a, T b) { return (a > b) ? a : b; }"
+          ]
+        },
+        {
+          "id": "3-2-exception",
+          "title": "3.2 异常处理",
+          "content": "## 异常基础\n\n异常用于处理程序运行时发生的**错误情况**。\n\n```cpp\n#include <stdexcept>\n\ndouble divide(double a, double b) {\n    if (b == 0) {\n        throw std::invalid_argument(\"除数不能为 0\");\n    }\n    return a / b;\n}\n\ntry {\n    double result = divide(10, 0);\n    std::cout << result << std::endl;\n} catch (const std::invalid_argument &e) {\n    std::cerr << \"错误: \" << e.what() << std::endl;\n} catch (const std::exception &e) {\n    std::cerr << \"其他异常: \" << e.what() << std::endl;\n} catch (...) {\n    std::cerr << \"未知异常\" << std::endl;\n}\n```\n\n## 异常安全保证\n\n| 级别 | 含义 |\n|------|------|\n| 无保证 | 异常发生后可能泄漏资源或数据损坏 |\n| 基本保证 | 异常发生后资源不泄漏，数据处于有效但不确定的状态 |\n| 强保证 | 操作要么完全成功，要么回滚到操作前的状态 |\n| noexcept | 保证不会抛出异常 |\n\n## noexcept\n\n```cpp\n// 声明函数不抛异常\nvoid safeFunc() noexcept;\n\n// noexcept 可以作为运算符使用（C++11）\ntemplate <typename T>\nvoid func() {\n    std::cout << noexcept(T()) << std::endl;  // 检查 T() 是否可能抛异常\n}\n\n// 条件式 noexcept（C++17）\ntemplate <typename T>\nvoid move(T &a, T &b) noexcept(std::is_nothrow_move_constructible_v<T>);\n```\n\n## RAII 与异常安全\n\n当异常抛出时，栈上对象会被自动销毁（**栈展开**），析构函数会被调用。这是 RAII 配合异常安全的基础。\n\n```cpp\nclass FileGuard {\n    FILE *fp_;\npublic:\n    FileGuard(const char *name) : fp_(fopen(name, \"r\")) {\n        if (!fp_) throw std::runtime_error(\"文件打开失败\");\n    }\n    ~FileGuard() { if (fp_) fclose(fp_); }\n};\n\n// 即使中间抛出异常，文件也会被正常关闭\nvoid process() {\n    FileGuard fg(\"data.txt\");\n    // ... 可能抛出异常的代码\n}\n```\n\n**最佳实践：**\n- 不要在析构函数中抛出异常\n- 使用 RAII 管理资源，避免手动 try-catch 清理\n- 按 const 引用捕获异常对象",
+          "code_examples": [
+            "throw std::invalid_argument(\"错误\");\ntry { } catch (const std::exception &e) { }"
+          ]
+        },
+        {
+          "id": "3-3-strings",
+          "title": "3.3 字符串处理",
+          "content": "## std::string 深入\n\n```cpp\n#include <string>\n\nstd::string s1 = \"Hello\";\nstd::string s2 = \"World\";\n\n// 常用操作\ns1.size();           // 5\ns1.length();         // 5（同 size）\ns1.empty();          // false\ns1[0];               // 'H'\ns1.at(0);            // 'H'（带越界检查）\n\n// 拼接\nstd::string s3 = s1 + \" \" + s2;  // \"Hello World\"\ns1 += \"!\";\n\n// 查找\nsize_t pos = s1.find(\"World\");   // 未找到返回 npos\nif (pos != std::string::npos) {  // 判断是否找到\n    std::string sub = s1.substr(pos, 5);  // 子串\n}\n\n// 转换\nint num = std::stoi(\"42\");           // 字符串→整数\ndouble d = std::stod(\"3.14\");        // 字符串→浮点数\nstd::string s = std::to_string(42);  // 数字→字符串\n```\n\n## 编码问题\n\n```cpp\n// UTF-8 编码（C++11 起支持 u8 前缀）\nconst char *utf8 = u8\"你好，世界\";\n\n// 宽字符\nstd::wstring ws = L\"Hello\";\nstd::wcout << ws << std::endl;\n\n// C++17 的 std::string_view——避免拷贝\nstd::string_view sv = \"不拷贝的字符串引用\";\n```\n\n**核心对比：**\n- C 风格字符串（`char*`）：需要手动管理内存，容易出错，C++ 中不推荐\n- `std::string`：自动管理内存、支持各种操作、C++ 中优先使用\n- `std::string_view`（C++17）：轻量只读引用，适合函数参数",
+          "code_examples": [
+            "std::string s = \"Hello\";\ns.size();\ns.find(\"World\");"
+          ]
+        },
+        {
+          "id": "3-4-io-stream",
+          "title": "3.4 输入输出流",
+          "content": "## iostream 库\n\nC++ 的 I/O 流库提供类型安全的输入输出。\n\n```cpp\n#include <iostream>\n#include <iomanip>\n\n// 输出\nstd::cout << \"Hello\";               // 标准输出\nstd::cerr << \"错误信息\";             // 标准错误（无缓冲）\nstd::clog << \"日志信息\";             // 标准日志（有缓冲）\n\n// 输入\nint n;\nstd::cin >> n;                       // 读取整数\nstd::string line;\nstd::getline(std::cin, line);        // 读取一行\n\n// 格式化\nstd::cout << std::fixed << std::setprecision(2);\nstd::cout << 3.14159;                // 3.14\n\nstd::cout << std::hex << 255;        // ff（十六进制输出）\nstd::cout << std::boolalpha << true; // true（输出 true/false 而非 1/0）\n```\n\n## 文件流\n\n```cpp\n#include <fstream>\n\n// 写文件\nstd::ofstream ofs(\"output.txt\");\nif (!ofs) {\n    std::cerr << \"文件打开失败\" << std::endl;\n    return;\n}\nofs << \"Hello, File!\" << std::endl;\nofs.close();\n\n// 读文件\nstd::ifstream ifs(\"input.txt\");\nstd::string line;\nwhile (std::getline(ifs, line)) {\n    std::cout << line << std::endl;\n}\n\n// 二进制读写\nstd::ofstream bin(\"data.bin\", std::ios::binary);\nint data[] = {1, 2, 3, 4, 5};\nbin.write(reinterpret_cast<char*>(data), sizeof(data));\n```\n\n## 字符串流\n\n```cpp\n#include <sstream>\n\nstd::stringstream ss;\nss << \"年龄: \" << 25 << \", 分数: \" << 92.5;\n\n// 解析字符串\nstd::string data = \"张三 20 95\";\nstd::string name;\nint age;\ndouble score;\nstd::stringstream(data) >> name >> age >> score;\n```\n\n**关键区别：**\n- `cout` 有缓冲，`cerr` 无缓冲（立即输出）\n- 文件流对象析构时自动关闭文件，但显式 close 是良好习惯",
+          "code_examples": [
+            "std::ofstream ofs(\"output.txt\");\nofs << \"Hello\";\nofs.close();"
+          ]
+        },
+        {
+          "id": "3-5-memory-management",
+          "title": "3.5 动态内存管理",
+          "content": "## 堆与栈\n\n| 特性 | 栈（Stack） | 堆（Heap） |\n|------|------------|------------|\n| 分配方式 | 自动分配和释放 | 手动分配和释放 |\n| 速度 | 极快（移动栈指针） | 较慢（需要查找空闲块） |\n| 大小 | 较小（通常 1-8 MB） | 较大（取决于系统内存） |\n| 生命周期 | 函数返回时自动释放 | 直到手动释放 |\n\n```cpp\nvoid func() {\n    int a = 10;              // 栈分配\n    int *p = new int(20);    // 堆分配\n    int *arr = new int[100]; // 堆分配数组\n    delete p;                // 释放单个对象\n    delete[] arr;            // 释放数组\n}\n```\n\n## new/delete 工作原理\n\n```cpp\n// new 的分解动作：\n// 1. 调用 operator new(size) 分配内存\n// 2. 调用构造函数（如果类型有构造函数）\n\n// delete 的分解动作：\n// 1. 调用析构函数\n// 2. 调用 operator delete(ptr) 释放内存\n\n// 定位 new（placement new）\nchar buffer[sizeof(int)];\nint *p = new (buffer) int(42);  // 在已有内存上构造对象\np->~int();  // 手动调用析构函数\n```\n\n## 常见内存问题\n\n```cpp\n// 1. 内存泄漏\nvoid leak() {\n    int *p = new int(42);\n    // 忘记 delete p;\n}\n\n// 2. 悬空指针\nint *dangling() {\n    int a = 42;\n    return &a;  // a 是局部变量，函数返回后已销毁\n}\n\n// 3. 双重释放\nvoid double_free() {\n    int *p = new int(42);\n    delete p;\n    delete p;  // 未定义行为！\n}\n\n// 4. 数组 delete 不匹配\nint *arr = new int[10];\ndelete arr;  // 未定义行为！应该用 delete[]\n```\n\n## RAII——资源获取即初始化\n\nRAII 是 C++ 中最重要的资源管理原则：\n- 资源在构造函数中获取\n- 资源在析构函数中释放\n- 通过栈上对象自动管理堆上资源\n\n**这是智能指针的基础，也是异常安全的关键。**",
+          "code_examples": [
+            "int *p = new int(42);\ndelete p;\nint *arr = new int[10];\ndelete[] arr;"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-4-stl",
+      "title": "第四阶段：STL 标准模板库",
+      "subsections": [
+        {
+          "id": "4-1-stl-overview",
+          "title": "4.1 STL 六大组件",
+          "content": "## STL 六大组件\n\nSTL（Standard Template Library）是 C++ 标准库的核心，由六大组件组成：\n\n| 组件 | 作用 | 例子 |\n|------|------|------|\n| **容器** | 存储数据 | vector, list, map |\n| **迭代器** | 遍历容器中的元素 | begin(), end() |\n| **算法** | 处理容器中的数据 | sort, find, copy |\n| **仿函数** | 自定义算法的行为 | less<T>, greater<T> |\n| **适配器** | 修改组件接口 | stack, queue |\n| **分配器** | 管理内存分配 | allocator<T> |\n\n## 容器分类\n\n```cpp\n// 序列式容器（线性存储）\nstd::vector<int> v;      // 动态数组，随机访问 O(1)\nstd::deque<int> d;       // 双端队列\nstd::list<int> l;        // 双向链表\nstd::forward_list<int> f;// 单向链表（C++11）\nstd::array<int, 5> a;    // 固定大小数组（C++11）\n\n// 关联式容器（自动排序，红黑树实现）\nstd::set<int> s;         // 唯一键集合\nstd::multiset<int> ms;   // 允许重复键\nstd::map<int, int> m;    // 键值对\nstd::multimap<int, int> mm; // 允许重复键的 map\n\n// 无序关联容器（哈希表，C++11）\nstd::unordered_set<int> us;\nstd::unordered_map<int, int> um;\n```\n\n## 选择容器的原则\n\n1. 默认使用 `vector`（性能最好，缓存局部性最优）\n2. 需要频繁在头部/中间插入删除 → `list` 或 `forward_list`\n3. 需要双端操作 → `deque`\n4. 需要按键查找 → `unordered_map`（平均 O(1)）或 `map`（O(log n)）\n5. 需要有序数据 → `set` / `map`\n6. 需要保持插入顺序 → `vector` 或 `list`",
+          "code_examples": [
+            "#include <vector>\nstd::vector<int> v = {1, 2, 3};"
+          ]
+        },
+        {
+          "id": "4-2-vector",
+          "title": "4.2 vector 详解",
+          "content": "## vector 是动态数组\n\n`std::vector` 是最常用的 STL 容器，在连续内存中存储元素。\n\n```cpp\n#include <vector>\n\n// 创建和初始化\nstd::vector<int> v1;                 // 空 vector\nstd::vector<int> v2(10);             // 10 个默认初始化的元素\nstd::vector<int> v3(10, 5);          // 10 个值为 5 的元素\nstd::vector<int> v4 = {1, 2, 3, 4};  // 列表初始化（C++11）\n\n// 常用操作\nv.push_back(42);          // 末尾添加元素\nv.pop_back();             // 移除末尾元素\nv.size();                 // 元素个数\nv.capacity();             // 当前容量（预分配空间）\nv.reserve(100);           // 预分配容量（避免频繁重新分配）\nv.shrink_to_fit();        // 释放多余容量（C++11）\nv.clear();                // 清空所有元素\nv.empty();                // 是否为空\n\n// 访问\nv[0];            // 不检查越界\nv.at(0);         // 检查越界（越界时抛 out_of_range）\nv.front();       // 第一个元素\nv.back();        // 最后一个元素\nv.data();        // 返回底层数组指针\n\n// 遍历\nfor (size_t i = 0; i < v.size(); i++) { /* v[i] */ }\nfor (int x : v) { /* x */ }\nfor (auto it = v.begin(); it != v.end(); ++it) { /* *it */ }\n```\n\n## vector 的扩容机制\n\n`vector` 在容量不足时会**重新分配**一块更大的内存（通常为当前容量的 1.5~2 倍），将所有元素移动到新内存，然后释放旧的。\n\n```cpp\nstd::vector<int> v;\nstd::cout << v.capacity();   // 0\nv.push_back(1);\nstd::cout << v.capacity();   // 1\nv.push_back(2);\nstd::cout << v.capacity();   // 2\nv.push_back(3);\nstd::cout << v.capacity();   // 4（翻倍扩容）\n// 频繁扩容有性能开销，已知大小可提前 reserve()\n```\n\n## 迭代器失效\n\n当 `vector` 发生重新分配时，之前获取的所有迭代器、指针和引用都**失效**。\n在 `vector` 中间插入/删除元素也可能导致迭代器失效。",
+          "code_examples": [
+            "std::vector<int> v = {1, 2, 3};\nv.push_back(42);\nfor (int x : v) { }"
+          ]
+        },
+        {
+          "id": "4-3-map-set",
+          "title": "4.3 map 与 set",
+          "content": "## map —— 键值对映射\n\n```cpp\n#include <map>\n\nstd::map<std::string, int> scores;\n\n// 插入\nscores[\"张三\"] = 95;           // 方式一：下标访问（如不存在则创建）\nscores.insert({\"李四\", 88});   // 方式二：insert（C++11）\nscores.emplace(\"王五\", 92);    // 方式三：emplace（避免拷贝）\n\n// 查找\nif (auto it = scores.find(\"张三\"); it != scores.end()) {\n    std::cout << it->first << \": \" << it->second;\n}\n\n// 遍历\nfor (const auto &[name, score] : scores) {  // 结构化绑定（C++17）\n    std::cout << name << \" = \" << score << std::endl;\n}\n\n// 统计出现次数\nstd::map<char, int> freq;\nfor (char c : \"hello world\") freq[c]++;\n```\n\n## set —— 唯一元素集合\n\n```cpp\n#include <set>\n\nstd::set<int> s = {3, 1, 4, 1, 5, 9};  // 自动去重、排序\n// 结果: {1, 3, 4, 5, 9}\n\ns.insert(2);\ns.erase(1);\nif (s.contains(3)) { /* C++20 */ }  // 或 s.count(3) > 0\n\n// set 的迭代器是 const 的（不能修改元素值，因为会破坏排序）\n```\n\n## unordered_map —— 哈希表\n\n```cpp\n#include <unordered_map>\n\n// 平均 O(1) 的查找，但不保证有序\nstd::unordered_map<std::string, int> um;\num[\"apple\"] = 5;\num[\"banana\"] = 3;\n\n// 自定义哈希（用于自定义类型）\nstruct Person { string name; int age; };\nstruct PersonHash {\n    size_t operator()(const Person &p) const {\n        return hash<string>()(p.name) ^ hash<int>()(p.age);\n    }\n};\nstd::unordered_map<Person, int, PersonHash> um2;\n```\n\n**性能对比：**\n\n| 容器 | 插入 | 查找 | 删除 | 有序 |\n|------|------|------|------|------|\n| map | O(log n) | O(log n) | O(log n) | ✅ |\n| unordered_map | O(1) 均摊 | O(1) | O(1) | ❌ |\n| set | O(log n) | O(log n) | O(log n) | ✅ |\n| unordered_set | O(1) 均摊 | O(1) | O(1) | ❌ |",
+          "code_examples": [
+            "std::map<string, int> m;\nm[\"key\"] = 42;\nfor (auto &[k, v] : m) { }"
+          ]
+        },
+        {
+          "id": "4-4-algorithms",
+          "title": "4.4 STL 算法",
+          "content": "## 算法分类\n\nSTL 提供了上百种算法，分为以下几类：\n\n```cpp\n#include <algorithm>\n#include <numeric>\n\nstd::vector<int> v = {4, 2, 5, 1, 3};\n\n// 1. 排序\nstd::sort(v.begin(), v.end());          // 快速排序 O(n log n)\nstd::stable_sort(v.begin(), v.end());   // 稳定排序\nstd::partial_sort(v.begin(), v.begin()+3, v.end());  // 部分排序\nstd::nth_element(v.begin(), v.begin()+v.size()/2, v.end());  // 第 n 大\n\n// 2. 查找\nauto it = std::find(v.begin(), v.end(), 3);\nauto it2 = std::binary_search(v.begin(), v.end(), 3);  // 要求已排序\nauto [first, last] = std::equal_range(v.begin(), v.end(), 3);  // 范围\n\n// 3. 修改\nstd::fill(v.begin(), v.end(), 0);        // 填充\nstd::copy(src.begin(), src.end(), dst.begin());  // 拷贝\nstd::transform(v.begin(), v.end(), v.begin(),\n               [](int x) { return x * 2; });     // 转换\n\n// 4. 删除（需要配合 erase）\nstd::erase(v, 3);                         // C++20 直接删除\nauto new_end = std::remove(v.begin(), v.end(), 3);  // 移到末尾\nv.erase(new_end, v.end());                // 真正删除\n\n// 5. 数值算法\nint sum = std::accumulate(v.begin(), v.end(), 0);\nint product = std::accumulate(v.begin(), v.end(), 1, std::multiplies<int>());\nstd::vector<int> diff;\nstd::adjacent_difference(v.begin(), v.end(), std::back_inserter(diff));\n```\n\n## Lambda 表达式与算法\n\nSTL 算法与 Lambda 表达式配合是 C++ 最常见的编程模式之一。\n\n```cpp\nstd::vector<Student> students = {...};\n\n// 按分数排序\nstd::sort(students.begin(), students.end(),\n    [](const Student &a, const Student &b) {\n        return a.score > b.score;  // 降序\n    });\n\n// 条件查找\nauto it = std::find_if(students.begin(), students.end(),\n    [](const Student &s) { return s.score >= 90; });\n\n// 条件统计\nint count = std::count_if(students.begin(), students.end(),\n    [](const Student &s) { return s.age < 18; });\n\n// 过滤\nstd::erase_if(students,\n    [](const Student &s) { return s.score < 60; });  // C++20\n```\n\n## 算法复杂度（面试常问）\n\n| 算法 | 复杂度 |\n|------|--------|\n| sort | O(n log n) |\n| nth_element | O(n) |\n| find / find_if | O(n) |\n| binary_search | O(log n) — 要求已排序 |\n| lower_bound / upper_bound | O(log n) |\n| set_union / set_intersection | O(n) — 要求已排序 |",
+          "code_examples": [
+            "std::sort(v.begin(), v.end());\nstd::find(v.begin(), v.end(), 3);"
+          ]
+        },
+        {
+          "id": "4-5-iterators",
+          "title": "4.5 迭代器",
+          "content": "## 迭代器分类\n\n迭代器是连接容器和算法的**桥梁**，每个容器提供自己的迭代器类型。\n\n| 迭代器类别 | 功能 | 示例 |\n|-----------|------|------|\n| 输入迭代器 | 只读，单向遍历 | istream_iterator |\n| 输出迭代器 | 只写，单向遍历 | ostream_iterator |\n| 前向迭代器 | 读写，单向，可重复遍历 | forward_list |\n| 双向迭代器 | 读写，双向遍历 | list, set, map |\n| 随机访问迭代器 | 读写，支持随机访问 | vector, deque, array |\n\n```cpp\nstd::vector<int> v = {10, 20, 30, 40, 50};\n\n// 正向遍历\nauto it = v.begin();\nstd::cout << *it;          // 10\n++it;                      // 指向 20\nit += 2;                   // 指向 40（仅随机访问迭代器）\nstd::cout << *(it - 1);    // 30\nstd::cout << it[0];        // 40\n\n// 反向遍历\nfor (auto rit = v.rbegin(); rit != v.rend(); ++rit) {\n    std::cout << *rit;     // 50, 40, 30, 20, 10\n}\n\n// 常量迭代器（不能修改元素）\nauto cit = v.cbegin();\n// *cit = 100;  // 编译错误\n```\n\n## 迭代器适配器\n\n```cpp\n#include <iterator>\n\n// 插入迭代器——在容器中插入而非覆盖\nstd::vector<int> dest;\nstd::copy(src.begin(), src.end(), std::back_inserter(dest));\n// dest 会自动增长\n\nstd::vector<int> v = {1, 2, 3};\nauto it = std::inserter(v, v.begin() + 1);\n*it = 99;   // v = {1, 99, 2, 3}\n\n// 流迭代器\nstd::istream_iterator<int> cin_it(std::cin), end;\nstd::vector<int> input(cin_it, end);  // 从标准输入读整数直到 EOF\n\nstd::ostream_iterator<int> out_it(std::cout, \", \");\nstd::copy(v.begin(), v.end(), out_it);  // 输出: 1, 99, 2, 3,\n```\n\n## 迭代器失效（重要！）\n\n在容器操作后，之前的迭代器可能失效：\n\n| 操作 | vector/deque | list/set/map | unordered_* |\n|------|-------------|--------------|-------------|\n| 插入 | 可能全部失效 | 不影响 | 可能失效 |\n| 删除 | 删除点之后失效 | 只影响被删元素 | 可能失效 |\n| 重新分配 | 全部失效 | N/A | N/A |\n\n安全删除的写法：\n\n```cpp\n// 删除满足条件的元素（正确方式）\nauto it = v.begin();\nwhile (it != v.end()) {\n    if (*it % 2 == 0) {\n        it = v.erase(it);  // erase 返回下一个有效的迭代器\n    } else {\n        ++it;\n    }\n}\n\n// C++20 更简单的写法\nstd::erase_if(v, [](int x) { return x % 2 == 0; });\n```\n\n**核心原则：** 如果可能修改容器的操作后，之前的迭代器视为失效，重新获取。",
+          "code_examples": [
+            "auto it = v.begin();\n++it;\nfor (auto rit = v.rbegin(); rit != v.rend(); ++rit) { }"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-5-modern-cpp",
+      "title": "第五阶段：现代 C++（C++11/14/17/20/23）",
+      "subsections": [
+        {
+          "id": "5-1-auto-decltype",
+          "title": "5.1 auto 与 decltype 类型推导",
+          "content": "## auto —— 自动类型推导\n\n`auto` 让编译器从初始化表达式推导变量的类型，是 Modern C++ 最常用的特性之一。\n\n```cpp\nauto x = 42;                // int\nauto y = 3.14;              // double\nauto z = \"hello\";           // const char*\nauto p = std::make_shared<int>(42);  // std::shared_ptr<int>\n\n// auto 会忽略引用和顶层 const\nint a = 10;\nint &ref = a;\nauto r = ref;               // int（引用被忽略）\nconst int ca = 10;\nauto ca2 = ca;              // int（顶层 const 被忽略）\nconst auto ca3 = ca;        // const int（手动加 const）\n```\n\n## auto 在范围 for 循环中的应用\n\n```cpp\nstd::vector<int> v = {1, 2, 3, 4};\n\nfor (auto x : v)          // 按值拷贝（修改不影响原容器）\nfor (auto &x : v)         // 按引用（可修改原容器）\nfor (const auto &x : v)   // 常量引用（只读，避免拷贝）\nfor (auto &&x : v)        // 通用引用（万能绑定）\n```\n\n## decltype —— 获取表达式的类型\n\n`decltype` 在**编译期**返回表达式的类型，不会实际执行表达式。\n\n```cpp\nint a = 10;\ndecltype(a) b = 20;              // int\ndecltype((a)) c = a;             // int&（注意双括号表示引用）\n\n// 在模板中非常有用\ntemplate <typename Container, typename Index>\ndecltype(auto) get(Container &c, Index i) {\n    return c[i];  // 完美保留引用语义\n}\n\n// C++14 用 decltype(auto)\ntemplate <typename F, typename... Args>\ndecltype(auto) invoke(F f, Args&&... args) {\n    return f(std::forward<Args>(args)...);\n}\n```",
+          "code_examples": [
+            "auto x = 42;\nauto &ref = v[0];\ndecltype(x) y = 10;"
+          ]
+        },
+        {
+          "id": "5-2-move-semantics",
+          "title": "5.2 右值引用与移动语义",
+          "content": "## 左值与右值\n\n- **左值**（lvalue）：可以取地址、有名字的表达式（如变量、数组元素）\n- **右值**（rvalue）：不能取地址、没有名字的临时值（如字面量、表达式返回值）\n\n```cpp\nint a = 10;      // a 是左值，10 是右值\nint b = a + 20;  // a+20 是右值\nint *p = &a;     // OK，&a 取左值的地址\n// int *q = &(a+20); // 错误！不能取右值的地址\n```\n\n## 右值引用 &&\n\n右值引用可以**绑定到右值**，从而知道这个对象是\"临时\"的，可以窃取它的资源而不是拷贝。\n\n```cpp\nint &&rr = 42;       // OK，右值引用绑定到右值\n// int &&rr2 = a;     // 错误！右值引用不能绑定左值\nint &&rr3 = std::move(a);  // OK，move 将左值转为右值引用\n```\n\n## 移动语义\n\n移动语义的核心是**转移资源所有权**而不是深拷贝，避免了昂贵的拷贝操作。\n\n```cpp\nclass Buffer {\n    int *data_;\n    size_t size_;\npublic:\n    // 拷贝构造（深拷贝）\n    Buffer(const Buffer &other) : size_(other.size_) {\n        data_ = new int[size_];\n        std::copy(other.data_, other.data_ + size_, data_);\n        std::cout << \"拷贝构造\\n\";\n    }\n\n    // 移动构造（窃取资源）\n    Buffer(Buffer &&other) noexcept\n        : data_(other.data_), size_(other.size_) {\n        other.data_ = nullptr;   // 源对象置空\n        other.size_ = 0;\n        std::cout << \"移动构造\\n\";\n    }\n\n    ~Buffer() { delete[] data_; }\n};\n\nBuffer createBuffer() {\n    Buffer b(1000);\n    return b;  // 编译器优先使用移动语义（甚至可能 RVO）\n}\n```\n\n## std::move —— 左值转右值\n\n`std::move` 不做任何实际移动，只是将参数转为右值引用，让编译器选择移动构造函数。\n\n```cpp\nstd::vector<int> v1 = {1, 2, 3, 4};\nstd::vector<int> v2 = std::move(v1);  // v1 的资源被转移到 v2\n// 此时 v1 为空（有效但未指定状态）\n```\n\n## 完美转发与 std::forward\n\n```cpp\ntemplate <typename T>\nvoid wrapper(T &&arg) {           // 万能引用（注意：T&& 并不仅仅是右值引用）\n    func(std::forward<T>(arg));   // 完美转发——保持参数的左右值属性\n}\n\n// 使用场景：工厂函数\ntemplate <typename T, typename... Args>\nstd::unique_ptr<T> make_unique(Args&&... args) {\n    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));\n}\n```\n\n**移动语义核心要点：**\n1. 移动后源对象处于**有效但未指定的状态**，可以销毁或赋值，但不能假设其值\n2. `std::move` 只是转换，不产生任何代码\n3. 移动操作应该标记 `noexcept`，否则标准库可能选择拷贝而非移动",
+          "code_examples": [
+            "std::vector<int> v2 = std::move(v1);\nint &&rr = 42;"
+          ]
+        },
+        {
+          "id": "5-3-smart-pointers",
+          "title": "5.3 智能指针",
+          "content": "## 智能指针概览\n\n智能指针自动管理动态对象的生命周期，是现代 C++ **避免内存泄漏**的核心工具。\n\n| 智能指针 | C++ 标准 | 所有权 | 特点 |\n|---------|----------|--------|------|\n| unique_ptr | C++11 | 独占 | 轻量，零开销，不可拷贝 |\n| shared_ptr | C++11 | 共享 | 引用计数，有额外开销 |\n| weak_ptr | C++11 | 弱引用 | 解决 shared_ptr 循环引用 |\n\n## unique_ptr\n\n```cpp\n#include <memory>\n\n// 独占所有权，不可拷贝，可移动\nstd::unique_ptr<int> p1 = std::make_unique<int>(42);\n// std::unique_ptr<int> p2 = p1;  // 编译错误！不可拷贝\nstd::unique_ptr<int> p2 = std::move(p1);  // OK，转移所有权\n// 此时 p1 为 nullptr\n\n// 应用于多态\nstd::unique_ptr<Shape> shape = std::make_unique<Circle>(5.0);\nstd::cout << shape->area();\n\n// 自定义删除器\nauto file_deleter = [](FILE *fp) { if (fp) fclose(fp); };\nstd::unique_ptr<FILE, decltype(file_deleter)> fp(fopen(\"a.txt\", \"r\"), file_deleter);\n```\n\n## shared_ptr\n\n```cpp\n// 共享所有权，引用计数管理\nstd::shared_ptr<int> s1 = std::make_shared<int>(42);\n{\n    auto s2 = s1;  // 引用计数 +1\n}  // 引用计数 -1\n\n// 引用计数为 0 时自动释放\n\n// 获取原始指针\nint *raw = s1.get();\n\n// 自定义删除器\nstd::shared_ptr<Dog> dog(new Dog(), [](Dog *d) {\n    std::cout << \"自定义删除\\n\";\n    delete d;\n});\n```\n\n## weak_ptr\n\n解决 shared_ptr 的**循环引用**问题。\n\n```cpp\nstruct Node {\n    int value;\n    std::shared_ptr<Node> next;\n    std::weak_ptr<Node> prev;  // 用 weak_ptr 打破循环\n    ~Node() { std::cout << \"~Node(\" << value << \")\\n\"; }\n};\n\nauto n1 = std::make_shared<Node>(1);\nauto n2 = std::make_shared<Node>(2);\nn1->next = n2;\nn2->prev = n1;  // weak_ptr 不会增加引用计数\n\n// weak_ptr 使用前需要 lock()\nif (auto sp = n2->prev.lock()) {\n    std::cout << sp->value;  // 安全访问\n}\n\n// expired() 检查资源是否已被释放\nif (n2->prev.expired()) { /* 资源已释放 */ }\n```\n\n## 智能指针选择指南\n\n1. **优先用 unique_ptr** —— 零开销，最安全\n2. **需要共享所有权时用 shared_ptr**\n3. **用 make_unique / make_shared** 创建（异常安全、性能更好）\n4. **避免** `.get()` 返回的裸指针在智能指针生命周期外使用",
+          "code_examples": [
+            "auto p = std::make_unique<int>(42);\nauto s = std::make_shared<int>(42);\nauto w = s;"
+          ]
+        },
+        {
+          "id": "5-4-lambda",
+          "title": "5.4 Lambda 表达式",
+          "content": "## Lambda 基础\n\nLambda 表达式创建一个**匿名函数对象**，是 Modern C++ 中使用最广泛的特性之一。\n\n```cpp\n// 基本语法：[捕获列表](参数列表) -> 返回类型 { 函数体 }\n\nauto add = [](int a, int b) -> int { return a + b; };\nstd::cout << add(3, 4);  // 7\n\n// 返回类型可以自动推导（省略 -> int）\nauto mul = [](int a, int b) { return a * b; };\n```\n\n## 捕获列表\n\n```cpp\nint x = 10, y = 20;\n\nauto f1 = [x]() { return x; };            // 按值捕获 x\nauto f2 = [&x]() { x++; };                // 按引用捕获 x\nauto f3 = [=]() { return x + y; };        // 按值捕获所有变量\nauto f4 = [&]() { x++; y++; };            // 按引用捕获所有变量\nauto f5 = [=, &y]() { return x + y; };    // 除 y 外按值捕获\nauto f6 = [&, x]() { y++; return x; };    // 除 x 外按引用捕获\n\n// 初始化捕获（C++14——移动语义）\nauto p = std::make_unique<int>(42);\nauto f7 = [p = std::move(p)]() { return *p; };\n// 这里的 p 是 Lambda 内部的成员变量，而非外面的 p\n```\n\n## 泛型 Lambda（C++14）\n\n```cpp\nauto add = [](auto a, auto b) { return a + b; };\nstd::cout << add(3, 4);        // int\nstd::cout << add(3.14, 2.72);  // double\n\n// 模板形式的 Lambda（C++20）\nauto lambda = []<typename T>(T a, T b) { return a + b; };\n```\n\n## Lambda 的实际应用场景\n\n```cpp\n// 1. 与 STL 算法配合（最常见）\nstd::sort(v.begin(), v.end(), [](int a, int b) { return a > b; });\n\nauto it = std::find_if(v.begin(), v.end(), [](int x) { return x > 10; });\n\n// 2. 自定义删除器\nauto deleter = [](FILE *f) { fclose(f); };\nstd::unique_ptr<FILE, decltype(deleter)> fp(fopen(\"a.txt\", \"r\"), deleter);\n\n// 3. 延迟计算\nauto lazy = [expensive = computeExpensive()]() {\n    // 在需要的时候才使用 expensive\n    return expensive * 2;\n};\n\n// 4. 作用域内一次性逻辑\nconst auto result = [&]() {\n    // 复杂计算逻辑\n    int sum = 0;\n    for (int x : data) sum += x;\n    return sum / data.size();\n}();  // 立即执行\n```\n\n## mutable 关键字\n\n按值捕获的 Lambda 默认是 const 的，`mutable` 允许修改它们。\n\n```cpp\nint count = 0;\nauto counter = [count]() mutable { return ++count; };\nstd::cout << counter();  // 1\nstd::cout << counter();  // 2\n// 注意：外部的 count 不变，mutable 修改的是 Lambda 内部的拷贝\n```\n\n**核心要点：**\n- Lambda 在底层实现为一个匿名的仿函数类\n- 默认按值捕获的变量是 const 的（除非 mutable）\n- 引用捕获的变量在使用时可能已经销毁——注意生命周期",
+          "code_examples": [
+            "auto add = [](int a, int b) { return a + b; };\nstd::sort(v.begin(), v.end(), [](int a, int b) { return a > b; });"
+          ]
+        },
+        {
+          "id": "5-5-modern-features",
+          "title": "5.5 Modern C++ 进阶特性",
+          "content": "## constexpr —— 编译时求值\n\n```cpp\n// 编译时计算（C++11 起）\nconstexpr int factorial(int n) {\n    return n <= 1 ? 1 : n * factorial(n - 1);\n}\nint arr[factorial(5)];  // 编译时确定的数组大小\n\n// C++14 起 constexpr 函数可以包含循环和分支\nconstexpr int sum(int n) {\n    int result = 0;\n    for (int i = 1; i <= n; ++i) result += i;\n    return result;\n}\n\n// C++20 起 constexpr 可以调用虚函数、动态分配等\nconstexpr int value = sum(100);  // 编译时计算\n\n// if constexpr（C++17）——编译时条件分支\ntemplate <typename T>\nauto get_value(T t) {\n    if constexpr (std::is_pointer_v<T>) {\n        return *t;\n    } else {\n        return t;\n    }\n}\n```\n\n## 结构化绑定（C++17）\n\n```cpp\nstd::map<std::string, int> scores;\n\n// 遍历 map\nfor (const auto &[name, score] : scores) {\n    std::cout << name << \": \" << score;\n}\n\n// 函数返回多个值\nauto split(const std::string &s, char delim) -> std::pair<std::string, std::string>;\nauto [first, second] = split(\"hello,world\", ',');\n\n// 数组\nint arr[3] = {1, 2, 3};\nauto [a, b, c] = arr;\n```\n\n## std::optional / std::variant / std::any（C++17）\n\n```cpp\n#include <optional>\n\n// 可能无返回值的函数\nstd::optional<int> safe_divide(int a, int b) {\n    if (b == 0) return std::nullopt;\n    return a / b;\n}\n\nif (auto result = safe_divide(10, 2); result.has_value()) {\n    std::cout << *result;    // 5\n    std::cout << result.value();\n}\n\n// std::variant —— 类型安全的联合体\nstd::variant<int, double, std::string> v;\nv = 42;                    // 存储 int\nv = 3.14;                  // 存储 double\nv = \"hello\";               // 存储 string\n\n// 访问 variant\nstd::visit([](auto &&arg) {\n    std::cout << arg;\n}, v);\n\n// std::any —— 存储任意类型（运行时多态，有额外开销）\nstd::any a = 42;\na = std::string(\"hello\");\nif (a.type() == typeid(std::string)) {\n    auto s = std::any_cast<std::string>(a);\n}\n```\n\n## C++20 核心新特性\n\n```cpp\n// Concepts —— 模板参数约束\ntemplate <std::integral T>\nT add(T a, T b) { return a + b; }  // 只接受整数类型\n\n// Ranges —— 更优雅的算法\n#include <ranges>\nauto result = v | std::views::filter([](int x) { return x % 2 == 0; })\n                | std::views::transform([](int x) { return x * x; });\n\n// Coroutines（协程）—— 异步编程基础设施\n// 需要实现 promise_type，生成器代码量大，这里展示使用\ngenerator<int> fibonacci() {\n    int a = 0, b = 1;\n    while (true) {\n        co_yield a;\n        auto tmp = a + b;\n        a = b;\n        b = tmp;\n    }\n}\n\n// C++23: std::print\n#include <print>\nstd::print(\"Hello {}!\\n\", \"world\");  // 比 cout 更简洁更快\n```\n\n**现代 C++ 核心建议：**\n- 优先使用 `constexpr` 将计算移到编译期\n- 用 `std::optional` 代替返回 -1 或 nullptr 表示\"无值\"\n- 用 `std::variant` 代替 union\n- 模板约束用 Concepts 而不是 SFINAE",
+          "code_examples": [
+            "constexpr int n = factorial(5);\nauto [k, v] = *map.begin();\nstd::optional<int> r = safe_divide(10, 2);"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-6-dsa",
+      "title": "第六阶段：数据结构与算法",
+      "subsections": [
+        {
+          "id": "6-1-complexity",
+          "title": "6.1 复杂度分析",
+          "content": "## 时间复杂度\n\n时间复杂度衡量算法执行时间随输入规模增长的变化趋势。\n\n### 大 O 符号（从快到慢）\n\n| 符号 | 名称 | 示例操作 |\n|------|------|----------|\n| O(1) | 常数时间 | 数组随机访问 |\n| O(log n) | 对数时间 | 二分查找 |\n| O(n) | 线性时间 | 遍历数组 |\n| O(n log n) | 线性对数 | 快速排序 |\n| O(n²) | 平方时间 | 冒泡排序 |\n| O(2ⁿ) | 指数时间 | 斐波那契递归 |\n\n```cpp\n// O(1) — 常数时间\nint getFirst(const vector<int> &v) { return v[0]; }\n\n// O(n) — 线性时间\nint find(const vector<int> &v, int target) {\n    for (size_t i = 0; i < v.size(); i++) {\n        if (v[i] == target) return i;\n    }\n    return -1;\n}\n\n// O(n²) — 平方时间\nvoid bubbleSort(vector<int> &v) {\n    for (size_t i = 0; i < v.size(); i++) {\n        for (size_t j = 0; j < v.size() - i - 1; j++) {\n            if (v[j] > v[j + 1]) swap(v[j], v[j + 1]);\n        }\n    }\n}\n\n// O(log n) — 对数时间\nint binarySearch(const vector<int> &v, int target) {\n    int left = 0, right = v.size() - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (v[mid] == target) return mid;\n        if (v[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}\n```\n\n## 空间复杂度\n\n算法临时占用的内存大小与输入规模的关系。\n\n| 空间 | 含义 | 例子 |\n|------|------|------|\n| O(1) | 只使用固定额外空间 | 原地排序 |\n| O(n) | 需要线性额外空间 | 归并排序 |\n\n## 分析技巧\n\n1. 只看**最坏情况**的复杂度\n2. 忽略常数项（O(2n) → O(n)）\n3. 嵌套循环相乘，顺序代码相加\n4. 递归算法按递归树分析 |\n",
+          "code_examples": [
+            "int binarySearch(vector<int> &v, int t) {\n    int l=0, r=v.size()-1;\n    while (l <= r) {\n        int m = l + (r-l)/2;\n        if (v[m]==t) return m;\n        if (v[m]<t) l=m+1; else r=m-1;\n    }\n    return -1;\n}"
+          ]
+        },
+        {
+          "id": "6-2-sorting",
+          "title": "6.2 排序算法",
+          "content": "## 必须掌握的排序算法\n\n### 快速排序（面试最常考）\n\n```cpp\nint partition(vector<int> &v, int l, int r) {\n    int pivot = v[r];  // 选最后一个为基准\n    int i = l - 1;\n    for (int j = l; j < r; j++) {\n        if (v[j] <= pivot) {\n            swap(v[++i], v[j]);\n        }\n    }\n    swap(v[i + 1], v[r]);\n    return i + 1;\n}\n\nvoid quickSort(vector<int> &v, int l, int r) {\n    if (l >= r) return;\n    int p = partition(v, l, r);\n    quickSort(v, l, p - 1);\n    quickSort(v, p + 1, r);\n}\n// 时间复杂度：平均 O(n log n)，最坏 O(n²)\n// 空间复杂度：O(log n)（递归栈深度）\n```\n\n### 归并排序\n\n```cpp\nvoid merge(vector<int> &v, int l, int m, int r) {\n    vector<int> left(v.begin() + l, v.begin() + m + 1);\n    vector<int> right(v.begin() + m + 1, v.begin() + r + 1);\n    int i = 0, j = 0, k = l;\n    while (i < left.size() && j < right.size()) {\n        v[k++] = left[i] <= right[j] ? left[i++] : right[j++];\n    }\n    while (i < left.size()) v[k++] = left[i++];\n    while (j < right.size()) v[k++] = right[j++];\n}\n\nvoid mergeSort(vector<int> &v, int l, int r) {\n    if (l >= r) return;\n    int m = l + (r - l) / 2;\n    mergeSort(v, l, m);\n    mergeSort(v, m + 1, r);\n    merge(v, l, m, r);\n}\n// 时间复杂度：O(n log n)（稳定）\n// 空间复杂度：O(n)\n```\n\n### 堆排序\n\n```cpp\nvoid heapify(vector<int> &v, int n, int i) {\n    int largest = i, left = 2*i + 1, right = 2*i + 2;\n    if (left < n && v[left] > v[largest]) largest = left;\n    if (right < n && v[right] > v[largest]) largest = right;\n    if (largest != i) {\n        swap(v[i], v[largest]);\n        heapify(v, n, largest);\n    }\n}\n\nvoid heapSort(vector<int> &v) {\n    int n = v.size();\n    for (int i = n/2 - 1; i >= 0; i--) heapify(v, n, i);\n    for (int i = n - 1; i > 0; i--) {\n        swap(v[0], v[i]);\n        heapify(v, i, 0);\n    }\n}\n```\n\n## 排序算法对比\n\n| 算法 | 平均时间 | 最坏时间 | 空间 | 稳定 |\n|------|---------|---------|------|------|\n| 冒泡排序 | O(n²) | O(n²) | O(1) | ✅ |\n| 选择排序 | O(n²) | O(n²) | O(1) | ❌ |\n| 插入排序 | O(n²) | O(n²) | O(1) | ✅ |\n| 快速排序 | O(n log n) | O(n²) | O(log n) | ❌ |\n| 归并排序 | O(n log n) | O(n log n) | O(n) | ✅ |\n| 堆排序 | O(n log n) | O(n log n) | O(1) | ❌ |\n| 计数排序 | O(n + k) | O(n + k) | O(k) | ✅ |\n\n**面试建议：** 手撕快排是高频考题，必须熟练到无 bug 写出。",
+          "code_examples": [
+            "void quickSort(vector<int> &v, int l, int r) {\n    if (l >= r) return;\n    int p = partition(v, l, r);\n    quickSort(v, l, p-1);\n    quickSort(v, p+1, r);\n}"
+          ]
+        },
+        {
+          "id": "6-3-data-structures",
+          "title": "6.3 核心数据结构实现",
+          "content": "## 手写数据结构（面试高频）\n\n### 1. 链表\n\n```cpp\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n\n// 反转链表\nListNode *reverseList(ListNode *head) {\n    ListNode *prev = nullptr, *curr = head;\n    while (curr) {\n        ListNode *next = curr->next;\n        curr->next = prev;\n        prev = curr;\n        curr = next;\n    }\n    return prev;\n}\n\n// 合并两个有序链表\nListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {\n    ListNode dummy(0), *cur = &dummy;\n    while (l1 && l2) {\n        if (l1->val <= l2->val) { cur->next = l1; l1 = l1->next; }\n        else { cur->next = l2; l2 = l2->next; }\n        cur = cur->next;\n    }\n    cur->next = l1 ? l1 : l2;\n    return dummy.next;\n}\n```\n\n### 2. 栈\n\n```cpp\ntemplate <typename T>\nclass Stack {\n    std::vector<T> data_;\npublic:\n    void push(const T &v) { data_.push_back(v); }\n    void pop() { if (!empty()) data_.pop_back(); }\n    T &top() { return data_.back(); }\n    bool empty() const { return data_.empty(); }\n    size_t size() const { return data_.size(); }\n};\n```\n\n### 3. 手写 vector\n\n```cpp\ntemplate <typename T>\nclass MyVector {\n    T *data_ = nullptr;\n    size_t size_ = 0;\n    size_t capacity_ = 0;\n\n    void reallocate(size_t new_cap) {\n        T *new_data = static_cast<T *>(operator new(new_cap * sizeof(T)));\n        for (size_t i = 0; i < size_; ++i) {\n            new (new_data + i) T(std::move(data_[i]));  // placement new\n        }\n        for (size_t i = 0; i < size_; ++i) data_[i].~T();\n        operator delete(data_);\n        data_ = new_data;\n        capacity_ = new_cap;\n    }\n\npublic:\n    void push_back(const T &val) {\n        if (size_ >= capacity_) reallocate(capacity_ == 0 ? 1 : capacity_ * 2);\n        new (data_ + size_) T(val);\n        ++size_;\n    }\n    T &operator[](size_t i) { return data_[i]; }\n    ~MyVector() {\n        for (size_t i = 0; i < size_; ++i) data_[i].~T();\n        operator delete(data_);\n    }\n};\n```\n\n### 4. 二叉树遍历\n\n```cpp\nstruct TreeNode {\n    int val;\n    TreeNode *left, *right;\n    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n};\n\n// 前序（递归）\nvoid preorder(TreeNode *r) { if (!r) return; visit(r); preorder(r->left); preorder(r->right); }\n// 中序（递归）\nvoid inorder(TreeNode *r) { if (!r) return; inorder(r->left); visit(r); inorder(r->right); }\n// 后序（递归）\nvoid postorder(TreeNode *r) { if (!r) return; postorder(r->left); postorder(r->right); visit(r); }\n\n// 前序（迭代——高频面试）\nvector<int> preorderIterative(TreeNode *root) {\n    vector<int> res;\n    if (!root) return res;\n    stack<TreeNode*> st; st.push(root);\n    while (!st.empty()) {\n        auto *n = st.top(); st.pop();\n        res.push_back(n->val);\n        if (n->right) st.push(n->right);  // 先右后左\n        if (n->left) st.push(n->left);\n    }\n    return res;\n}\n```\n\n**LeetCode 刷题顺序建议：**\n1. 数组/字符串\n2. 链表\n3. 哈希表\n4. 栈/队列\n5. 二叉树\n6. 排序/搜索\n7. 动态规划\n8. 图",
+          "code_examples": [
+            "struct ListNode { int val; ListNode *next; };\nListNode *reverseList(ListNode *head);"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-7-file-io",
+      "title": "第七阶段：文件 I/O 与序列化",
+      "subsections": [
+        {
+          "id": "7-1-file-streams",
+          "title": "7.1 文件流操作",
+          "content": "## 文本文件读写\n\n```cpp\n#include <fstream>\n#include <string>\n\n// 写文本文件\nstd::ofstream ofs(\"data.txt\");\nif (!ofs) {\n    std::cerr << \"无法打开文件\\n\";\n    return;\n}\nofs << \"姓名: 张三\\n\";\nofs << \"年龄: 25\\n\";\nofs << \"分数: 92.5\\n\";\nofs.close();\n\n// 读文本文件\nstd::ifstream ifs(\"data.txt\");\nstd::string line;\nwhile (std::getline(ifs, line)) {\n    std::cout << line << std::endl;\n}\n```\n\n## 二进制文件读写\n\n```cpp\n#include <fstream>\n\nstruct Student {\n    char name[32];\n    int age;\n    double score;\n};\n\n// 写二进制\nStudent s = {\"张三\", 25, 92.5};\nstd::ofstream ofs(\"student.bin\", std::ios::binary);\nofs.write(reinterpret_cast<const char*>(&s), sizeof(s));\nofs.close();\n\n// 读二进制\nStudent s2;\nstd::ifstream ifs(\"student.bin\", std::ios::binary);\nifs.read(reinterpret_cast<char*>(&s2), sizeof(s2));\n```\n\n## 文件状态与定位\n\n```cpp\nstd::ifstream ifs(\"data.txt\");\n\n// 文件大小\nifs.seekg(0, std::ios::end);\nsize_t size = ifs.tellg();\nifs.seekg(0, std::ios::beg);  // 回到开头\n\n// 读取整个文件\nstd::string content((std::istreambuf_iterator<char>(ifs)),\n                     std::istreambuf_iterator<char>());\n```\n\n## 文件模式\n\n| 模式 | 含义 |\n|------|------|\n| std::ios::in | 读取（ifstream 默认） |\n| std::ios::out | 写入（ofstream 默认），会覆盖已有内容 |\n| std::ios::app | 追加写入 |\n| std::ios::ate | 打开后定位到末尾 |\n| std::ios::binary | 二进制模式 |\n| std::ios::trunc | 打开时清空内容 |\n\n**最佳实践：**\n- 对于简单配置，使用 JSON/INI 格式而非纯文本\n- 二进制文件读写指定 `std::ios::binary` 模式\n- 总是检查文件是否成功打开",
+          "code_examples": [
+            "std::ofstream ofs(\"data.txt\");\nofs << \"Hello\";\nofs.close();"
+          ]
+        },
+        {
+          "id": "7-2-json-serialization",
+          "title": "7.2 JSON 与序列化",
+          "content": "## 使用 nlohmann/json 库\n\nJSON 是 C++ 项目中最常用的配置文件和数据交换格式。\n\n```cpp\n#include <nlohmann/json.hpp>\nusing json = nlohmann::json;\n\n// 构建 JSON\njson j;\nj[\"name\"] = \"张三\";\nj[\"age\"] = 25;\nj[\"scores\"] = {95, 88, 92};\nj[\"address\"][\"city\"] = \"北京\";\nj[\"address\"][\"district\"] = \"海淀\";\n\n// 序列化到字符串\nstd::string str = j.dump(4);  // 带缩进的漂亮输出\n\n// 从字符串解析\njson j2 = json::parse(str);\nstd::string name = j2[\"name\"];\nint age = j2[\"age\"];\nauto scores = j2[\"scores\"].get<std::vector<int>>();\n```\n\n## 自定义类型的序列化\n\n```cpp\nstruct Student {\n    std::string name;\n    int age;\n    double score;\n};\n\n// 序列化\nvoid to_json(json &j, const Student &s) {\n    j = json{{\"name\", s.name}, {\"age\", s.age}, {\"score\", s.score}};\n}\n\n// 反序列化\nvoid from_json(const json &j, Student &s) {\n    j.at(\"name\").get_to(s.name);\n    j.at(\"age\").get_to(s.age);\n    j.at(\"score\").get_to(s.score);\n}\n\n// 使用\nStudent s{\"张三\", 25, 92.5};\njson j = s;  // 自动调用 to_json\nStudent s2 = j.get<Student>();  // 自动调用 from_json\n\n// 读写 JSON 文件\nstd::ofstream(\"config.json\") << j.dump(4);\njson j3 = json::parse(std::ifstream(\"config.json\"));\n```\n\n## 序列化格式对比\n\n| 格式 | 可读性 | 性能 | 类型安全 | 适用场景 |\n|------|--------|------|---------|---------|\n| JSON | 好 | 中等 | 弱 | 配置文件、API 通信 |\n| XML | 好 | 慢 | 弱 | 遗留系统、文档 |\n| YAML | 好 | 慢 | 弱 | 复杂配置 |\n| Protobuf | 差 | 快 | 强 | 高性能通信 |\n| 二进制 | 差 | 最快 | 自定义 | 游戏存档、内部存储 |\n\n**建议：** 大多数 C++ 项目用 JSON 作为配置文件格式足够。高性能场景使用 Protobuf 或 FlatBuffers。",
+          "code_examples": [
+            "json j;\nj[\"name\"] = \"张三\";\nstd::string s = j.dump();"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-8-concurrency",
+      "title": "第八阶段：多线程与并发编程",
+      "subsections": [
+        {
+          "id": "8-1-thread-basics",
+          "title": "8.1 线程基础",
+          "content": "## std::thread\n\nC++11 起标准库提供了跨平台的线程支持。\n\n```cpp\n#include <thread>\n#include <iostream>\n\nvoid worker(int id) {\n    std::cout << \"线程 \" << id << \" 开始工作\\n\";\n    std::this_thread::sleep_for(std::chrono::seconds(1));\n    std::cout << \"线程 \" << id << \" 结束\\n\";\n}\n\n// 创建线程\nstd::thread t1(worker, 1);\nstd::thread t2(worker, 2);\n\n// 必须 join 或 detach，否则析构时程序终止\nt1.join();   // 等待线程结束\nt2.detach(); // 分离线程（让它在后台运行）\n// t2 可能还没执行完 main 就结束了，需要同步机制\n\n// 获取当前线程信息\nstd::cout << std::this_thread::get_id() << std::endl;\nstd::cout << std::thread::hardware_concurrency() << \" 个核心\\n\";\n```\n\n## std::jthread（C++20）\n\n`std::jthread` 在析构时自动 join，并且支持**请求停止**。\n\n```cpp\n#include <stop_token>  // C++20\n\nstd::jthread jt([](std::stop_token st) {\n    while (!st.stop_requested()) {\n        std::cout << \"工作中...\" << std::endl;\n        std::this_thread::sleep_for(100ms);\n    }\n});\n\n// 请求停止（析构时也会自动调用）\njt.request_stop();\n// jt 析构时自动 join——无需手动 join\n```\n\n## 线程 vs 进程\n\n| 特性 | 线程 | 进程 |\n|------|------|------|\n| 创建开销 | 低 | 高 |\n| 上下文切换 | 快 | 慢 |\n| 内存共享 | 同一进程内共享 | 独立地址空间 |\n| 通信方式 | 共享内存 | IPC（管道、消息队列等） |\n| 隔离性 | 弱——一个线程崩溃影响整个进程 | 强 |\n\n**核心原则：**\n- 避免在需要高性能时创建销毁大量线程（使用线程池）\n- 线程数通常不超过 `hardware_concurrency()`",
+          "code_examples": [
+            "std::thread t(worker, 1);\nt.join();"
+          ]
+        },
+        {
+          "id": "8-2-mutex-locks",
+          "title": "8.2 互斥锁与数据保护",
+          "content": "## 竞态条件与互斥锁\n\n当多个线程同时访问共享数据时，需要**同步**来防止数据竞争。\n\n```cpp\n#include <mutex>\n\nstd::mutex mtx;\nint counter = 0;\n\nvoid increment() {\n    for (int i = 0; i < 100000; ++i) {\n        mtx.lock();\n        ++counter;  // 临界区\n        mtx.unlock();\n    }\n}\n\n// 推荐用 lock_guard（RAII 自动解锁）\nvoid safe_increment() {\n    for (int i = 0; i < 100000; ++i) {\n        std::lock_guard<std::mutex> lock(mtx);\n        ++counter;\n    }  // 离开作用域时自动解锁\n}\n```\n\n## std::lock_guard vs std::unique_lock vs std::scoped_lock\n\n```cpp\nstd::mutex m1, m2;\n\n// lock_guard —— 最简单的 RAII 封装（不可手动解锁）\n{\n    std::lock_guard<std::mutex> lock(m1);\n    // 临界区\n}\n\n// unique_lock —— 更灵活，支持手动 unlock / lock\nstd::unique_lock<std::mutex> lock(m1);\nlock.unlock();  // 提前解锁\n// ...\nlock.lock();    // 再次上锁\n\n// scoped_lock（C++17）—— 同时锁多个互斥量（防死锁）\n{\n    std::scoped_lock lock(m1, m2);  // 同时锁住 m1 和 m2\n    // 同时操作两个共享资源\n}\n```\n\n## 死锁的四个必要条件\n\n1. **互斥**：资源一次只能被一个线程使用\n2. **持有并等待**：线程持有资源的同时等待其他资源\n3. **不可剥夺**：资源只能由持有者主动释放\n4. **循环等待**：多个线程形成等待环路\n\n```cpp\n// 死锁的例子\nstd::mutex a, b;\n\nvoid thread1() {\n    std::lock_guard<std::mutex> lock1(a);\n    std::this_thread::sleep_for(1ms);\n    std::lock_guard<std::mutex> lock2(b);  // 等 thread2 释放 b\n}\n\nvoid thread2() {\n    std::lock_guard<std::mutex> lock1(b);\n    std::this_thread::sleep_for(1ms);\n    std::lock_guard<std::mutex> lock2(a);  // 等 thread1 释放 a\n}\n\n// 解决：用 std::lock 同时锁多个，或保证锁的顺序一致\nstd::scoped_lock both(a, b);  // C++17 推荐方式\n```\n\n## 读写锁（shared_mutex）\n\n多个线程读、一个线程写的场景。\n\n```cpp\n#include <shared_mutex>\n\nclass ThreadSafeCache {\n    mutable std::shared_mutex rw_lock_;\n    std::map<std::string, int> cache_;\npublic:\n    int get(const std::string &key) const {\n        std::shared_lock lock(rw_lock_);  // 共享锁——多个线程可同时读\n        auto it = cache_.find(key);\n        return it != cache_.end() ? it->second : -1;\n    }\n\n    void set(const std::string &key, int value) {\n        std::unique_lock lock(rw_lock_);  // 独占锁——写时不能有读\n        cache_[key] = value;\n    }\n};\n```\n\n**最佳实践：**\n- 尽量缩小临界区范围（不要在整个函数上加锁，只在操作共享数据时）\n- 优先用 `lock_guard` / `scoped_lock` 而非手动 lock/unlock\n- 避免在临界区内调用可能阻塞的函数",
+          "code_examples": [
+            "std::mutex mtx;\nstd::lock_guard<std::mutex> lock(mtx);\n// 临界区"
+          ]
+        },
+        {
+          "id": "8-3-atomics",
+          "title": "8.3 原子操作与无锁编程",
+          "content": "## std::atomic\n\n原子操作是不需要互斥锁就能保证线程安全的操作。\n\n```cpp\n#include <atomic>\n\nstd::atomic<int> counter{0};\n\nvoid increment() {\n    for (int i = 0; i < 100000; ++i) {\n        counter.fetch_add(1);  // 原子递增\n        // 或：++counter;\n    }\n}\n\n// 对比——非原子版本会产生数据竞争\n// volatile int counter{0};  // volatile 不能保证原子性！\n```\n\n## 原子操作类型\n\n```cpp\nstd::atomic<bool> flag{false};\nstd::atomic<int> count{0};\nstd::atomic<long long> sum{0};\nstd::atomic<int*> ptr{nullptr};\n\n// 原子操作\nflag.store(true);          // 写\nbool b = flag.load();      // 读\nbool old = flag.exchange(false);  // 交换\nbool expected = true;\nbool changed = flag.compare_exchange_strong(expected, false);\n// CAS（Compare-And-Swap）—— 无锁数据结构的基础\n```\n\n## 内存序\n\n内存序控制原子操作对其它线程的**可见性**。\n\n```cpp\n// 不同内存序的性能和保证\nstd::atomic<int> x{0}, y{0};\n\n// memory_order_relaxed —— 最宽松（最快），只保证原子性\nx.store(42, std::memory_order_relaxed);\n\n// memory_order_acquire —— 保证此操作后的读能看到之前的写\nint v = y.load(std::memory_order_acquire);\n\n// memory_order_release —— 保证此操作之前的写对其他线程可见\ny.store(1, std::memory_order_release);\n\n// memory_order_seq_cst —— 最严格（默认），全局顺序一致\nx.store(42);  // 等同于 memory_order_seq_cst\n```\n\n## 自旋锁\n\n```cpp\nclass SpinLock {\n    std::atomic<bool> locked_{false};\npublic:\n    void lock() {\n        while (locked_.exchange(true, std::memory_order_acquire)) {\n            // 忙等待——CPU 空转\n            // 可以加 _mm_pause() 或 std::this_thread::yield()\n        }\n    }\n    void unlock() {\n        locked_.store(false, std::memory_order_release);\n    }\n};\n```\n\n**何时用原子操作 vs 互斥锁：**\n- 简单的计数/标志：用 atomic\n- 复杂的数据结构操作：用 mutex\n- 高性能场景（如统计）：用 atomic\n- 多数情况下，mutex 就够用，不要过早优化",
+          "code_examples": [
+            "std::atomic<int> counter{0};\ncounter.fetch_add(1);"
+          ]
+        },
+        {
+          "id": "8-4-async-future",
+          "title": "8.4 异步编程",
+          "content": "## std::future 和 std::async\n\n异步编程允许在后台执行任务，稍后获取结果。\n\n```cpp\n#include <future>\n\n// 异步执行一个函数\nstd::future<int> result = std::async(std::launch::async, []() {\n    std::this_thread::sleep_for(std::chrono::seconds(2));\n    return 42;\n});\n\n// 做其他事情...\nstd::cout << \"等待结果...\\n\";\n\n// 获取结果（阻塞直到完成）\nint value = result.get();\nstd::cout << \"结果: \" << value << std::endl;\n```\n\n## launch 策略\n\n```cpp\n// 强制在新线程中执行\nstd::async(std::launch::async, func);\n\n// 延迟执行（调用 get 时才在调用线程执行）\nstd::async(std::launch::deferred, func);\n\n// 默认——由实现决定（通常等同于 async）\nstd::async(func);\n```\n\n## std::promise\n\n`promise` 是用来手动设置 `future` 值的工具。\n\n```cpp\nstd::promise<int> prom;\nstd::future<int> fut = prom.get_future();\n\n// 在另一个线程中设置值\nstd::thread t([&prom]() {\n    std::this_thread::sleep_for(1s);\n    prom.set_value(42);\n});\n\nint result = fut.get();  // 会在 prom.set_value() 时返回\nt.join();\n```\n\n## std::packaged_task\n\n将可调用对象包装为异步任务。\n\n```cpp\nstd::packaged_task<int(int, int)> task([](int a, int b) {\n    return a + b;\n});\n\nstd::future<int> result = task.get_future();\n\nstd::thread t(std::move(task), 3, 4);\nt.join();\n\nstd::cout << result.get();  // 7\n```\n\n## 条件变量\n\n条件变量用于线程间的**事件通知**。\n\n```cpp\n#include <condition_variable>\n\nstd::mutex mtx;\nstd::condition_variable cv;\nbool ready = false;\n\n// 等待线程\nvoid worker() {\n    std::unique_lock<std::mutex> lock(mtx);\n    cv.wait(lock, []{ return ready; });  // 等待 ready 变为 true\n    // 条件满足，继续执行\n    std::cout << \"开始工作\\n\";\n}\n\n// 通知线程\nvoid notify() {\n    {\n        std::lock_guard<std::mutex> lock(mtx);\n        ready = true;\n    }\n    cv.notify_one();  // 唤醒一个等待线程\n    // cv.notify_all();  // 唤醒所有等待线程\n}\n```\n\n**异步编程选择指南：**\n- 简单异步任务 → `std::async`\n- 需要手动设置结果 → `std::promise`\n- 需要包装已有函数 → `std::packaged_task`\n- 需要线程间事件通知 → `condition_variable`\n- 复杂异步流 → 考虑 Boost.Asio 或 libuv",
+          "code_examples": [
+            "std::future<int> fut = std::async([]() { return 42; });\nint v = fut.get();"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-9-network",
+      "title": "第九阶段：网络编程",
+      "subsections": [
+        {
+          "id": "9-1-socket-basics",
+          "title": "9.1 Socket 编程基础",
+          "content": "## Socket 是什么\n\nSocket 是操作系统提供的网络通信接口，允许不同主机上的程序交换数据。\n\n## TCP Socket 核心 API\n\n| 函数 | 用途 |\n|------|------|\n| socket() | 创建一个套接字 |\n| bind() | 绑定到本地地址和端口 |\n| listen() | 开始监听连接 |\n| accept() | 接受客户端连接 |\n| connect() | 连接到远程服务器 |\n| send() / recv() | 发送/接收数据 |\n| close() | 关闭套接字 |\n\n## TCP 服务器示例（Linux）\n\n```cpp\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <unistd.h>\n\nint server_fd = socket(AF_INET, SOCK_STREAM, 0);\n\nstruct sockaddr_in addr;\naddr.sin_family = AF_INET;\naddr.sin_addr.s_addr = INADDR_ANY;\naddr.sin_port = htons(8080);\n\nbind(server_fd, (struct sockaddr*)&addr, sizeof(addr));\nlisten(server_fd, 5);\n\nwhile (true) {\n    int client = accept(server_fd, nullptr, nullptr);\n    // 处理客户端请求（通常在新线程中）\n    const char *msg = \"Hello!\\n\";\n    send(client, msg, strlen(msg), 0);\n    close(client);\n}\nclose(server_fd);\n```\n\n## TCP 客户端示例\n\n```cpp\nint sock = socket(AF_INET, SOCK_STREAM, 0);\n\nstruct sockaddr_in addr;\naddr.sin_family = AF_INET;\naddr.sin_port = htons(8080);\ninet_pton(AF_INET, \"127.0.0.1\", &addr.sin_addr);\n\nconnect(sock, (struct sockaddr*)&addr, sizeof(addr));\n\nchar buffer[1024] = {0};\nrecv(sock, buffer, sizeof(buffer), 0);\nstd::cout << \"收到: \" << buffer;\n\nclose(sock);\n```\n\n## Windows 差异（Winsock）\n\nWindows 上需要初始化 Winsock，且使用 `closesocket()` 而非 `close()`。\n\n```cpp\n// Windows 特有初始化\nWSADATA wsaData;\nWSAStartup(MAKEWORD(2, 2), &wsaData);\n// ... 使用 socket API ...\nclosesocket(sock);\nWSACleanup();\n```\n\n**关键概念：**\n- `htons` / `htonl`：主机字节序 → 网络字节序（大端）\n- `ntohs` / `ntohl`：网络字节序 → 主机字节序\n- TCP 是**面向连接**的（先建立连接再通信）\n- UDP 是**无连接**的（直接发数据包）",
+          "code_examples": [
+            "int fd = socket(AF_INET, SOCK_STREAM, 0);\nbind(fd, ...);\nlisten(fd, 5);\naccept(fd, ...);"
+          ]
+        },
+        {
+          "id": "9-2-io-multiplexing",
+          "title": "9.2 I/O 多路复用",
+          "content": "## 为什么需要 I/O 多路复用\n\n一个服务器需要同时处理多个客户端连接。为每个连接创建一个线程的模型在连接数多时不可扩展。\n\nI/O 多路复用允许**一个线程同时监视多个 socket**。\n\n## select / poll / epoll 对比\n\n```cpp\n// select —— 最古老，FD_SETSIZE 限制（通常 1024）\nfd_set read_fds;\nFD_ZERO(&read_fds);\nFD_SET(socket_fd, &read_fds);\nselect(socket_fd + 1, &read_fds, nullptr, nullptr, nullptr);\nif (FD_ISSET(socket_fd, &read_fds)) {\n    // 可读\n}\n\n// epoll —— Linux 高性能方案（无上限，事件驱动）\nint epfd = epoll_create1(0);\nstruct epoll_event ev;\nev.events = EPOLLIN;\nev.data.fd = socket_fd;\nepoll_ctl(epfd, EPOLL_CTL_ADD, socket_fd, &ev);\n\nstruct epoll_event events[1024];\nint n = epoll_wait(epfd, events, 1024, -1);\nfor (int i = 0; i < n; i++) {\n    // events[i].data.fd 可读\n}\n```\n\n## epoll 的工作模式\n\n| 模式 | 含义 | 使用场景 |\n|------|------|----------|\n| LT（水平触发） | 只要还有数据可读，就一直通知 | 简单，不容易漏事件 |\n| ET（边缘触发） | 只有状态变化时才通知，需要一次读完 | 高性能，需配合非阻塞 I/O |\n\n## IOCP（Windows 高性能方案）\n\nWindows 上的 I/O 完成端口（IOCP）是最高效的异步 I/O 模型。\n\n```cpp\n// IOCP 核心概念：将 I/O 操作投递到完成端口\n// 工作线程从完成端口取结果，不必等待 I/O 完成\nHANDLE iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);\nCreateIoCompletionPort((HANDLE)socket, iocp, (ULONG_PTR)socket, 0);\n\n// 工作线程循环\nwhile (true) {\n    DWORD bytes;\n    ULONG_PTR key;\n    Overlapped *ov = nullptr;\n    GetQueuedCompletionStatus(iocp, &bytes, &key, (LPOVERLAPPED*)&ov, INFINITE);\n    // key 是 socket，ov 包含操作信息\n}\n```\n\n## 常用 C++ 网络库\n\n| 库 | 特点 | 学习难度 |\n|----|------|---------|\n| Boost.Asio | 跨平台，功能最强 | 中~高 |\n| libuv | Node.js 底层引擎，跨平台 | 中 |\n| cpp-httplib | 轻量 HTTP 库，header-only | 低 |\n| POCO | 完整 C++ 网络框架 | 中 |\n\n**建议：** 先掌握 Socket API 基础 + epoll/IOCP 原理，实际项目使用 Boost.Asio 或 libuv。",
+          "code_examples": [
+            "int epfd = epoll_create1(0);\nepoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev);\nepoll_wait(epfd, events, 1024, -1);"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-10-design-patterns",
+      "title": "第十阶段：设计模式与架构",
+      "subsections": [
+        {
+          "id": "10-1-solid",
+          "title": "10.1 SOLID 原则",
+          "content": "## SOLID 五大原则\n\n### S — 单一职责原则（Single Responsibility）\n\n一个类只应该有一个职责，只有一个引起它变化的原因。\n\n```cpp\n// ❌ 违反 SRP：一个类既保存数据又处理文件操作和渲染\nclass Employee {\n    string name;\n    double salary;\n    void saveToFile() { /* ... */ }\n    void renderHTML() { /* ... */ }\n};\n\n// ✅ 符合 SRP：职责分离\nclass Employee { /* 只存数据 */ };\nclass EmployeeRepository { /* 负责持久化 */ };\nclass EmployeeView { /* 负责渲染 */ };\n```\n\n### O — 开闭原则（Open/Closed）\n\n对扩展开放，对修改关闭。\n\n```cpp\n// 通过多态实现扩展\nclass Shape {\npublic:\n    virtual double area() const = 0;\n};\n\nclass Circle : public Shape {\n    double r_;\npublic:\n    double area() const override { return 3.14 * r_ * r_; }\n};\n\nclass Rectangle : public Shape {\n    double w_, h_;\npublic:\n    double area() const override { return w_ * h_; }\n};\n\n// 新增三角形不需要修改 Shape 基类和已有代码\nclass Triangle : public Shape {\n    double b_, h_;\npublic:\n    double area() const override { return 0.5 * b_ * h_; }\n};\n```\n\n### L — 里氏替换原则（Liskov Substitution）\n\n派生类必须能够替换其基类而不影响程序正确性。\n\n```cpp\n// ❌ 违反 LSP：正方形继承矩形\nclass Rectangle {\n    virtual void setWidth(double w) { width_ = w; }\n    virtual void setHeight(double h) { height_ = h; }\n};\n\nclass Square : public Rectangle {\n    void setWidth(double w) override {\n        Rectangle::setWidth(w);\n        Rectangle::setHeight(w);  // 修改了预期行为！\n    }\n};\n```\n\n### I — 接口隔离原则（Interface Segregation）\n\n不应该强迫客户端依赖它们不使用的接口。\n\n### D — 依赖反转原则（Dependency Inversion）\n\n高层模块不应该依赖低层模块，两者都应该依赖抽象。\n\n```cpp\n// ❌ 违反 DIP：高层直接依赖低层实现\nclass MySQLDatabase { /* ... */ };\nclass UserService {\n    MySQLDatabase db_;  // 直接依赖具体实现\n};\n\n// ✅ 符合 DIP：依赖抽象接口\nclass IDatabase {\npublic:\n    virtual ~IDatabase() = default;\n    virtual void save(const User &u) = 0;\n};\n\nclass UserService {\n    IDatabase &db_;  // 依赖抽象\npublic:\n    UserService(IDatabase &d) : db_(d) {}\n};\n\n// 可以轻松替换为任何数据库\nclass PostgresDatabase : public IDatabase { /* ... */ };\n```",
+          "code_examples": [
+            "class Shape { public: virtual double area() const = 0; };"
+          ]
+        },
+        {
+          "id": "10-2-common-patterns",
+          "title": "10.2 常用设计模式",
+          "content": "## 单例模式（Singleton）\n\n```cpp\nclass Singleton {\npublic:\n    static Singleton &getInstance() {\n        static Singleton instance;  // C++11 起线程安全的局部静态变量\n        return instance;\n    }\n    Singleton(const Singleton &) = delete;\n    Singleton &operator=(const Singleton &) = delete;\nprivate:\n    Singleton() = default;  // 私有构造\n    ~Singleton() = default;\n};\n```\n\n## 工厂模式（Factory）\n\n```cpp\nenum class ShapeType { Circle, Rectangle };\n\n// 简单工厂\nstd::unique_ptr<Shape> createShape(ShapeType type) {\n    switch (type) {\n        case ShapeType::Circle:    return std::make_unique<Circle>(5.0);\n        case ShapeType::Rectangle: return std::make_unique<Rectangle>(3, 4);\n    }\n    throw std::invalid_argument(\"未知类型\");\n}\n```\n\n## 观察者模式（Observer）\n\n```cpp\n// 事件发射器\nclass EventEmitter {\n    std::vector<std::function<void(int)>> listeners_;\npublic:\n    void on(std::function<void(int)> cb) { listeners_.push_back(std::move(cb)); }\n    void emit(int data) {\n        for (auto &cb : listeners_) cb(data);\n    }\n};\n\nEventEmitter emitter;\nemitter.on([](int v) { std::cout << \"收到: \" << v << std::endl; });\nemitter.emit(42);\n```\n\n## 策略模式（Strategy）\n\n```cpp\n// 排序策略\nclass ISortStrategy {\npublic:\n    virtual ~ISortStrategy() = default;\n    virtual void sort(std::vector<int> &v) const = 0;\n};\n\nclass QuickSortStrategy : public ISortStrategy {\npublic:\n    void sort(std::vector<int> &v) const override { /* 快排实现 */ }\n};\n\nclass MergeSortStrategy : public ISortStrategy {\npublic:\n    void sort(std::vector<int> &v) const override { /* 归并实现 */ }\n};\n\nclass Sorter {\n    const ISortStrategy &strategy_;\npublic:\n    Sorter(const ISortStrategy &s) : strategy_(s) {}\n    void sort(std::vector<int> &v) const { strategy_.sort(v); }\n};\n```",
+          "code_examples": [
+            "Singleton &getInstance() { static Singleton instance; return instance; }"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-11-engineering",
+      "title": "第十一阶段：工程化与工具链",
+      "subsections": [
+        {
+          "id": "11-1-cmake",
+          "title": "11.1 CMake 构建系统",
+          "content": "## 现代 CMake（3.x）\n\nCMake 是 C++ 项目的事实标准构建工具。\n\n### 单文件项目\n\n```cpp\n# CMakeLists.txt\ncmake_minimum_required(VERSION 3.16)\nproject(MyApp)\n\nset(CMAKE_CXX_STANDARD 20)\nset(CMAKE_CXX_STANDARD_REQUIRED ON)\n\nadd_executable(myapp main.cpp)\n```\n\n### 多目录项目\n\n```cpp\n# 顶层 CMakeLists.txt\ncmake_minimum_required(VERSION 3.20)\nproject(MyProject)\n\nadd_subdirectory(src)\nadd_subdirectory(libs)\nadd_subdirectory(tests)\n```\n\n### 使用第三方库\n\n```cpp\n# 使用 FetchContent 自动下载（无需手动安装）\ninclude(FetchContent)\n\nFetchContent_Declare(\n    nlohmann_json\n    GIT_REPOSITORY https://github.com/nlohmann/json.git\n    GIT_TAG v3.11.2\n)\nFetchContent_MakeAvailable(nlohmann_json)\n\n# 或者用 find_package 找已安装的库\nfind_package(fmt CONFIG REQUIRED)\n\ntarget_link_libraries(myapp PRIVATE nlohmann_json::nlohmann_json fmt::fmt)\n```\n\n## vcpkg 包管理器\n\n```bash\n# 安装 vcpkg\ngit clone https://github.com/Microsoft/vcpkg.git\ncd vcpkg && ./bootstrap-vcpkg.sh\n\n# 安装库\n./vcpkg install fmt\n./vcpkg install nlohmann-json\n\n# 与 CMake 集成\ncmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake\n```\n\n## 编译与构建步骤\n\n```bash\n# 配置阶段\ncmake -B build -DCMAKE_BUILD_TYPE=Release\n\n# 构建阶段\ncmake --build build -j8\n\n# 安装\ncmake --install build --prefix /usr/local\n\n# 常用 CMake 选项\n# -DCMAKE_BUILD_TYPE=Debug/Release/RelWithDebInfo\n# -DCMAKE_INSTALL_PREFIX=/path\n# -DBUILD_SHARED_LIBS=ON/OFF\n```\n\n**核心概念：**\n- `target_link_libraries` —— 传递依赖自动管理\n- `PUBLIC` / `PRIVATE` / `INTERFACE` —— 控制可见性\n- `Modern CMake` 的核心是 target，而非变量",
+          "code_examples": [
+            "cmake_minimum_required(VERSION 3.16)\nproject(MyApp)\nadd_executable(myapp main.cpp)"
+          ]
+        },
+        {
+          "id": "11-2-testing",
+          "title": "11.2 单元测试",
+          "content": "## Google Test\n\n```cpp\n#include <gtest/gtest.h>\n\n// 被测试函数\nint add(int a, int b) { return a + b; }\nbool isEven(int n) { return n % 2 == 0; }\n\n// 测试用例\nTEST(MathTest, Add) {\n    EXPECT_EQ(add(2, 3), 5);\n    EXPECT_EQ(add(-1, 1), 0);\n    EXPECT_NE(add(2, 2), 5);\n}\n\nTEST(MathTest, IsEven) {\n    EXPECT_TRUE(isEven(4));\n    EXPECT_FALSE(isEven(3));\n}\n\n// 测试夹具（Test Fixture）\nclass MyTestFixture : public ::testing::Test {\nprotected:\n    void SetUp() override { /* 每个测试前执行 */ }\n    void TearDown() override { /* 每个测试后执行 */ }\n};\n\nTEST_F(MyTestFixture, SomeTest) {\n    // 使用 fixture\n}\n\nint main(int argc, char **argv) {\n    ::testing::InitGoogleTest(&argc, argv);\n    return RUN_ALL_TESTS();\n}\n```\n\n## Catch2（另一种选择）\n\n```cpp\n#define CATCH_CONFIG_MAIN\n#include <catch2/catch.hpp>\n\nTEST_CASE(\"数学测试\") {\n    SECTION(\"加法\") {\n        REQUIRE(add(2, 3) == 5);\n        CHECK(add(-1, 1) == 0);  // CHECK 失败继续执行\n    }\n    SECTION(\"偶数判断\") {\n        REQUIRE(isEven(4));\n        REQUIRE_FALSE(isEven(3));\n    }\n}\n```\n\n## 测试金字塔\n\n```\n        /\\\n       /  \\        E2E 测试（少）\n      /    \\\n     /      \\      集成测试（中）\n    /________\\\n   / 单元测试  \\   单元测试（多）\n  /____________\\\n```\n\n## CMake + Google Test 集成\n\n```cpp\n# CMakeLists.txt\ninclude(FetchContent)\nFetchContent_Declare(\n    googletest\n    GIT_REPOSITORY https://github.com/google/googletest.git\n    GIT_TAG v1.14.0\n)\nFetchContent_MakeAvailable(googletest)\n\nadd_executable(my_test test_main.cpp)\ntarget_link_libraries(my_test PRIVATE gtest_main gmock)\nadd_test(NAME my_test COMMAND my_test)\n```",
+          "code_examples": [
+            "TEST(MathTest, Add) {\n    EXPECT_EQ(add(2, 3), 5);\n}"
+          ]
+        },
+        {
+          "id": "11-3-git",
+          "title": "11.3 Git 进阶",
+          "content": "## 必须掌握的 Git 技能\n\n### 日常操作\n```bash\ngit clone <repo>\ngit add .\ngit commit -m \"feat: 添加新功能\"\ngit push\ngit pull --rebase  # 用 rebase 代替 merge 拉取\n```\n\n### 分支管理\n```bash\ngit branch feature-login           # 创建分支\ngit checkout -b feature-login      # 创建并切换\ngit merge feature-login            # 合并到当前分支\ngit rebase main                    # 变基\ngit cherry-pick <commit-hash>      # 挑选某个提交\n```\n\n### 处理冲突\n```bash\n# 当合并冲突时\ngit status                         # 查看冲突文件\n# 手动解决冲突后\ngit add <file>\ngit commit                         # 完成合并\n\n# 或者放弃合并\ngit merge --abort\n```\n\n### 后悔药\n```bash\ngit reset HEAD~1                   # 撤销最后一次提交（保留修改）\ngit reset --hard HEAD~1            # 撤销最后一次提交（丢弃修改）\ngit revert HEAD                    # 安全的撤销——创建一个反向提交\ngit stash                          # 暂存当前修改\ngit stash pop                      # 恢复暂存的修改\n```\n\n### 代码审查（Code Review）\n```bash\n# 创建 PR 前确保代码整洁\ngit rebase -i HEAD~3               # 交互式 rebase，合并最近的 3 个提交\n# pick → squash → reword...\n\n# 查看变更\ngit diff                           # 工作区 vs 暂存区\ngit diff --cached                  # 暂存区 vs 仓库\ngit log --oneline --graph          # 简洁的提交历史\n```\n\n### 提交信息规范\n\n```\nfeat: 新功能\nfix: Bug 修复\nrefactor: 重构\ndocs: 文档\ntest: 测试\nchore: 构建/工具\nstyle: 代码格式（不影响功能）\n```",
+          "code_examples": [
+            "git rebase -i HEAD~3\ngit commit -m \"feat: add login\""
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-12-interview",
+      "title": "第十二阶段：面试与就业特训",
+      "subsections": [
+        {
+          "id": "12-1-top-interview-questions",
+          "title": "12.1 C++ 高频面试题",
+          "content": "## C++ 面试最高频 20 题\n\n### 1. 虚函数表（vtable）的工作原理\n\n每个有虚函数的类有一个 vtable，存储虚函数地址。每个对象有一个 vptr 指向 vtable。调用虚函数时通过 vptr 查表找到实际函数地址。这是**动态绑定**的实现机制。\n\n### 2. 指针和引用的区别\n\n| 指针 | 引用 |\n|------|------|\n| 是一个变量，存储地址 | 是别名，没有独立内存（底层也是指针实现） |\n| 可以为空 (nullptr) | 不能为空，必须初始化 |\n| 可以重新指向 | 一旦绑定不可改变 |\n| 有指针运算 | 没有引用运算 |\n\n### 3. malloc/free 和 new/delete 的区别\n\n- new 调用构造函数，malloc 只分配内存\n- new 是运算符，malloc 是函数\n- new 返回类型安全的指针，malloc 返回 void*\n- new 失败抛异常，malloc 返回 nullptr\n- new 可以被运算符重载，malloc 不能\n\n### 4. 智能指针的原理\n\n`unique_ptr`：独占所有权，禁止拷贝，支持移动。`shared_ptr`：引用计数，多个指针共享所有权。`weak_ptr`：弱引用，不增加计数，解决循环引用。\n\n### 5. 深拷贝 vs 浅拷贝\n\n浅拷贝只拷贝指针值（两个对象指向同一内存），深拷贝分配新内存并拷贝内容。管理动态资源的类需要**自定义拷贝构造函数和拷贝赋值运算符**来实现深拷贝。\n\n### 6. move 语义的原理\n\n`std::move` 将左值转换为右值引用，触发移动构造函数，**窃取**源对象的资源（如指针），然后将源对象置为空状态。避免了深拷贝的开销。\n\n### 7. 四种 cast 的区别\n\n`static_cast`：编译时检查，最常用。`dynamic_cast`：运行时检查，用于多态类型向下转型。`const_cast`：移除 const。`reinterpret_cast`：最危险，位级重新解释。\n\n### 8. RAII 是什么\n\n资源获取即初始化——在构造函数中获取资源，在析构函数中释放。是 C++ 资源管理的核心原则，实现异常安全和自动资源管理。\n\n### 9. 什么是未定义行为（UB）\n\n程序的行为不受 C++ 标准的约束。常见 UB：解引用空指针、数组越界、有符号整数溢出、使用未初始化的变量、double free。UB 可能产生任何结果——崩溃、静默错误、甚至看起来正常。\n\n### 10. 内存对齐\n\n编译器在结构体成员之间插入填充字节，使每个成员的地址对齐到其大小的倍数。CPU 访问对齐的内存效率更高。\n\n```cpp\nstruct A {       // 实际 8 字节（不是 5）\n    char a;      // 1 字节\n    // 3 字节填充\n    int b;       // 4 字节\n};\n```\n\n### 11. constexpr vs const\n\n`const`：运行时常量（但不一定，取决于上下文）。`constexpr`：编译期常量，强制在编译时求值。C++20 起 constexpr 函数可以包含动态分配和虚函数。\n\n### 12. static 关键字的各个用法\n\n1. **静态局部变量**：函数内，只初始化一次，生命周期持续到程序结束\n2. **静态全局变量/函数**：文件内可见（内部链接）\n3. **静态成员变量/函数**：属于类而非对象\n4. `static_cast`：类型转换\n\n### 13. 野指针和空指针\n\n空指针（`nullptr`）指向明确定义的\"空地址\"，解引用会崩溃（可检测）。野指针指向已释放或随机的内存，解引用后果未定义，最难排查。预防：释放后将指针置为 nullptr。\n\n### 14. 内联函数和宏的区别\n\n内联函数有类型检查，宏只是文本替换。内联函数遵循作用域规则。编译器可以选择忽略 inline 建议。宏可以做\"胶水代码\"（如 `#define LOG(x) cout << #x << \"=\" << (x)`）。\n\n### 15. 什么是多态\n\n多态指**同一接口，不同实现**。编译时多态（函数重载、模板）和运行时多态（虚函数）。运行时多态通过虚函数表实现，可以在运行时动态选择调用哪个派生类的函数。\n\n### 16. vector 的扩容机制\n\n当元素数量达到容量时，重新分配新内存（通常为当前容量的 1.5~2 倍），**移动**所有元素到新内存，然后释放旧内存。频繁扩容有性能开销。\n\n### 17. 如何避免死锁\n\n1. 固定锁的顺序\n2. 使用 `std::lock` 或 `std::scoped_lock` 一次性锁多个\n3. 尽量缩小临界区\n4. 使用超时锁 `std::timed_mutex` 的 try_lock\n\n### 18. 左值和右值的区别\n\n左值有内存地址，可以取地址。右值是临时值，没有地址。右值引用 `&&` 可以延长临时对象的生命周期，并触发移动语义。\n\n### 19. 什么是完美转发\n\n通过万能引用（`T&&`）+ `std::forward`，保持函数参数的左右值属性不变地传递给另一个函数。\n\n### 20. 哪些 C++11/14/17/20 特性你常用\n\nauto、智能指针、Lambda、右值引用/移动语义、constexpr、范围 for、nullptr、unordered_* 容器、std::optional、结构化绑定、C++20 Concepts/Ranges、std::format / std::print",
+          "code_examples": [
+            "// 高频手撕题\nvoid reverseString(vector<char> &s) {\n    int l = 0, r = s.size() - 1;\n    while (l < r) swap(s[l++], s[r--]);\n}"
+          ]
+        },
+        {
+          "id": "12-2-hands-on",
+          "title": "12.2 手撕代码高频题",
+          "content": "## 面试中必须自己能写出来的代码\n\n### 1. 实现 String 类\n\n```cpp\nclass String {\n    char *data_;\npublic:\n    String() : data_(new char[1]{}) {}\n    String(const char *s) : data_(new char[strlen(s) + 1]) {\n        strcpy(data_, s);\n    }\n    String(const String &other) : String(other.data_) {}  // 深拷贝\n\n    String(String &&other) noexcept : data_(other.data_) {\n        other.data_ = nullptr;\n    }\n    String &operator=(String other) {  // copy-and-swap\n        swap(*this, other);\n        return *this;\n    }\n    ~String() { delete[] data_; }\n\n    friend void swap(String &a, String &b) noexcept {\n        std::swap(a.data_, b.data_);\n    }\n};\n```\n\n### 2. 实现 shared_ptr\n\n```cpp\ntemplate <typename T>\nclass SharedPtr {\n    T *ptr_;\n    int *ref_count_;\npublic:\n    explicit SharedPtr(T *p = nullptr) : ptr_(p), ref_count_(new int(1)) {}\n    SharedPtr(const SharedPtr &other)\n        : ptr_(other.ptr_), ref_count_(other.ref_count_) {\n        ++(*ref_count_);\n    }\n    ~SharedPtr() {\n        if (--(*ref_count_) == 0) {\n            delete ptr_;\n            delete ref_count_;\n        }\n    }\n    T &operator*() { return *ptr_; }\n    T *operator->() { return ptr_; }\n};\n```\n\n### 3. 实现线程池\n\n```cpp\nclass ThreadPool {\n    std::vector<std::thread> workers_;\n    std::queue<std::function<void()>> tasks_;\n    std::mutex mtx_;\n    std::condition_variable cv_;\n    bool stop_ = false;\n\npublic:\n    ThreadPool(size_t n) {\n        for (size_t i = 0; i < n; ++i) {\n            workers_.emplace_back([this] {\n                while (true) {\n                    std::function<void()> task;\n                    {\n                        std::unique_lock lock(mtx_);\n                        cv_.wait(lock, [this] {\n                            return stop_ || !tasks_.empty();\n                        });\n                        if (stop_ && tasks_.empty()) return;\n                        task = std::move(tasks_.front());\n                        tasks_.pop();\n                    }\n                    task();  // 执行任务\n                }\n            });\n        }\n    }\n\n    template <class F, class... Args>\n    auto enqueue(F &&f, Args &&...args)\n        -> std::future<std::invoke_result_t<F, Args...>> {\n        using ReturnType = std::invoke_result_t<F, Args...>;\n        auto task = std::make_shared<std::packaged_task<ReturnType()>>(\n            std::bind(std::forward<F>(f), std::forward<Args>(args)...)\n        );\n        std::future<ReturnType> result = task->get_future();\n        {\n            std::lock_guard lock(mtx_);\n            tasks_.emplace([task]() { (*task)(); });\n        }\n        cv_.notify_one();\n        return result;\n    }\n\n    ~ThreadPool() {\n        { std::lock_guard lock(mtx_); stop_ = true; }\n        cv_.notify_all();\n        for (auto &w : workers_) w.join();\n    }\n};\n\n// 使用\nThreadPool pool(4);\nauto fut = pool.enqueue([](int a, int b) { return a + b; }, 3, 4);\nstd::cout << fut.get();  // 7\n```\n\n### 4. 单例模式\n\n```cpp\nclass Singleton {\npublic:\n    static Singleton &instance() {\n        static Singleton inst;  // C++11 起线程安全\n        return inst;\n    }\n    Singleton(const Singleton &) = delete;\n    Singleton &operator=(const Singleton &) = delete;\nprivate:\n    Singleton() = default;\n    ~Singleton() = default;\n};\n```",
+          "code_examples": [
+            "class String {\npublic:\n    String(const String &other); // 深拷贝\n};"
+          ]
+        },
+        {
+          "id": "12-3-project-guide",
+          "title": "12.3 简历项目建议",
+          "content": "## 推荐项目方向\n\n以下项目按难度排序，选 2-3 个深入做，放进简历。\n\n### 初级项目（适合 0-1 年经验）\n\n**1. 高性能日志库**\n- 异步写入、多级别日志、支持文件滚动、格式化输出\n- 用到：设计模式（单例）、多线程（生产者-消费者）、文件 I/O\n- 技术点：双缓冲、批量写入减少 IO 次数\n\n**2. Web 服务器**\n- 支持 HTTP/1.1 的静态文件服务器\n- 用到：Socket 编程、epoll 多路复用、线程池、解析 HTTP 协议\n- 可扩展：支持 CGI、添加缓存层\n\n### 中级项目（适合 1-3 年经验）\n\n**3. 内存数据库 / KV 存储**\n- 实现一个简单的内存 KV 存储，支持 SET/GET/DELETE\n- 用到：哈希表、跳表、LSM-Tree、序列化\n- 可扩展：添加持久化、网络协议、复制\n\n**4. 游戏引擎核心模块**（ECS 架构）\n- Entity-Component-System 架构\n- 用到：模板元编程、对象池、内存管理、多线程\n- 技术点：组件的内存连续存储（缓存友好）\n\n**5. C++ 协程库**\n- 基于 C++20 Coroutines 的简易协程库\n- 用到：协程 promise_type、RAII、完美转发\n\n### 高级项目（3 年以上经验）\n\n**6. 分布式 RPC 框架**\n- 服务注册/发现、序列化（Protobuf）、连接池\n- 用到：网络编程、多线程、设计模式、性能优化\n\n**7. 跨平台渲染引擎**\n- 基于 OpenGL/Vulkan 的轻量渲染引擎\n- 用到：C++17/20、GPU 编程、计算几何\n\n## 简历格式\n\n### 项目描述格式（STAR 法则）\n\n```\n项目名称：高性能异步日志库\n\n技术栈：C++17、多线程、双缓冲\n\n项目描述：\n- 设计并实现了日均处理数千万条日志的异步日志库\n- 采用双缓冲技术，将 IO 操作从业务线程分离到后台线程\n- 使用 RAII 管理文件资源，保证异常安全\n- 支持日志分级、文件滚动（按时/按大小）、运行时配置\n- 相比 spdlog benchmark，相同场景下吞吐量约 80%\n\n难点与解决方案：\n- 避免日志丢失：使用有界队列 + 丢弃策略\n- 减少锁竞争：每个线程一个独立的缓冲区\n```",
+          "code_examples": [
+            "// 日志库核心：双缓冲队列\nstd::vector<std::string> buffers_[2];\nstd::atomic<int> current_buffer_{0};"
+          ]
+        }
+      ]
+    }
+  ]
+}
