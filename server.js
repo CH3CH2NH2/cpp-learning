@@ -43,12 +43,15 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n  🚀 C++ 学习网站已启动
   ────────────────────────────
-  🌐 地址: http://0.0.0.0:${PORT}
-  📖 API:  http://0.0.0.0:${PORT}/api/knowledge
+  🌐 端口: ${PORT}
   ${process.env.DEEPSEEK_API_KEY ? '✅ DeepSeek API 已配置' : '⚠️  DEEPSEEK_API_KEY 未配置'}
   ────────────────────────────
   `);
 });
+server.on('error', (err) => console.error('SERVER ERROR:', err));
+setTimeout(() => {
+  console.log('Server still running after 5s');
+}, 5000);
