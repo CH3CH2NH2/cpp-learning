@@ -1,3 +1,4 @@
+// Railway 部署修复 v3 — 强制重新构建
 process.on('uncaughtException', (err) => console.error('UNCAUGHT:', err));
 process.on('unhandledRejection', (r) => console.error('UNHANDLED:', r));
 
