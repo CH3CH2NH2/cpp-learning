@@ -1,11 +1,17 @@
+process.on('uncaughtException', (err) => console.error('UNCAUGHT:', err));
+process.on('unhandledRejection', (r) => console.error('UNHANDLED:', r));
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+try { require('dotenv').config(); } catch {}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// 健康检查
+app.get('/health', (_, res) => res.send('ok'));
 
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
