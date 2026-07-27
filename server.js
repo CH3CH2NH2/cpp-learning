@@ -37,14 +37,11 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`
-  🚀 C++ 学习网站已启动
+app.listen(PORT, () => {
+  console.log(`\n  🚀 C++ 学习网站已启动
   ────────────────────────────
-  🌐 本地:  http://localhost:${PORT}
-  📡 网络:  http://192.168.5.11:${PORT}
-  🌍 其他设备用上方网络地址访问
-  📖 知识接口: http://localhost:${PORT}/api/knowledge
+  🌐 地址: http://0.0.0.0:${PORT}
+  📖 API:  http://0.0.0.0:${PORT}/api/knowledge
   ${process.env.DEEPSEEK_API_KEY ? '✅ DeepSeek API 已配置' : '⚠️  DEEPSEEK_API_KEY 未配置'}
   ────────────────────────────
   `);
